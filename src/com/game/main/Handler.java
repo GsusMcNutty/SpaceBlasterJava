@@ -4,26 +4,28 @@ import java.awt.*;
 import java.util.LinkedList;
 
 public class Handler {
-    LinkedList<GameObject> object = new LinkedList<>();
+    LinkedList<GameObject> objectLL = new LinkedList<>();
 
     public void tick(){
-        for (GameObject tempObject : object) {
-            tempObject.tick();
+        for (int i = 0; i < objectLL.size(); i++) {
+            GameObject obj = objectLL.get(i);
+            obj.tick();
         }
     }
 
     public void render(Graphics g){
-        for (GameObject tempObject : object) {
-            tempObject.render(g);
+        for (int i = 0; i < objectLL.size(); i++) {
+            GameObject obj = objectLL.get(i);
+            obj.render(g);
         }
     }
 
-    public void addObject(GameObject object){
-        this.object.add(object);
+    public void addObject(GameObject obj){
+        this.objectLL.add(obj);
     }
 
-    public void removeObject(GameObject object){
-        this.object.remove(object);
+    public void removeObject(GameObject obj){
+        this.objectLL.remove(obj);
     }
 
 }

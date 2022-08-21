@@ -5,20 +5,32 @@ import java.awt.image.BufferStrategy;
 
 public class Game extends Canvas implements Runnable{
     public static final int WIDTH = 640, HEIGHT = WIDTH/ 12 * 9;
-
     private Thread thread;
     private boolean isRunning = false;
+    private Handler handler;
 
-    private final Handler handler;
+    private EnemySpawner spawner;
 
     public Game(){
-        new Window(WIDTH, HEIGHT, "Blaster", this);
-        //Handler
-        handler = new Handler();
-        //Make Player
-        handler.addObject(new Player(100,100,ID.Player));
-    }
+        init();
 
+        //construct window
+        new Window(WIDTH, HEIGHT, "Blaster", this);
+
+        //KeyListener
+        this.addKeyListener(new KeyInputs(handler,spawner));
+        this.addMouseListener(new MouseInput(handler));
+
+        //Make Objects
+        handler.addObject(new Player(100,100, 20, 20, ID.Player, handler));
+        handler.addObject(new EnemyBasic(300,300, 20,20, ID.Basic, handler));
+        handler.addObject(new EnemyBasic(200,200, 20,20, ID.Basic, handler));
+    }
+    private void init(){
+        handler = new Handler();
+        spawner = new EnemySpawner(handler);
+        spawner.setSpawning(false);
+    }
     public synchronized void start(){
         thread = new Thread(this);
         thread.start();
@@ -55,6 +67,7 @@ public class Game extends Canvas implements Runnable{
 
             if(System.currentTimeMillis() - timer > 1000){
                 timer += 1000;
+                //FPS Print
                 System.out.println("FPS: " + frames);
             }
         }
