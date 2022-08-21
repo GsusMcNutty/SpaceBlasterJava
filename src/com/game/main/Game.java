@@ -7,22 +7,28 @@ public class Game extends Canvas implements Runnable{
     public static final int WIDTH = 640, HEIGHT = WIDTH/ 12 * 9;
 
     private Thread thread;
-    private boolean running = false;
+    private boolean isRunning = false;
+
+    private final Handler handler;
 
     public Game(){
         new Window(WIDTH, HEIGHT, "Blaster", this);
+        //Handler
+        handler = new Handler();
+        //Make Player
+        handler.addObject(new Player(100,100,ID.Player));
     }
 
     public synchronized void start(){
         thread = new Thread(this);
         thread.start();
-        running = true;
+        isRunning = true;
     }
 
     public synchronized void stop(){
         try{
             thread.join();
-            running = false;
+            isRunning = false;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -35,7 +41,7 @@ public class Game extends Canvas implements Runnable{
         double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
-        while (running){
+        while (isRunning){
             long now = System.nanoTime();
             delta += (now - lastTime)/ ns;
             lastTime = now;
@@ -43,7 +49,7 @@ public class Game extends Canvas implements Runnable{
                 tick();
                 delta--;
             }
-            if(running)
+            if(isRunning)
                 render();
             frames ++;
 
@@ -56,7 +62,7 @@ public class Game extends Canvas implements Runnable{
     }
 
     private void tick(){
-
+        handler.tick();
     }
 
     private void render(){
@@ -65,10 +71,13 @@ public class Game extends Canvas implements Runnable{
             this.createBufferStrategy(3);
             return;
         }
+        //Draw Background
         Graphics g = bs.getDrawGraphics();
-
         g.setColor(Color.black);
         g.fillRect(0,0, WIDTH, HEIGHT);
+
+        //Handler Drawing
+        handler.render(g);
 
         g.dispose();
         bs.show();
