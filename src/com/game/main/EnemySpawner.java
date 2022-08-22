@@ -15,9 +15,9 @@ public class EnemySpawner {
 
     }
 
-    public void spawnEnemy(ID id){
-        if(isSpawning == true){
-            handler.addObject(new EnemyBasic(200,200, 10,10, id, handler));
+    public void spawnEnemy(float x, float y, ID id){
+        if(isSpawning){
+            handler.addObject(new EnemyBasic(x,y, handler));
             setSpawning(false);
         }
     }

@@ -2,6 +2,8 @@ package com.game.main;
 
 public enum ID {
     Player(),
-    Asteroids(),
-    Basic()
+    PickUp(),
+    Asteroid(),
+    Basic(),
+    Shooter()
 }

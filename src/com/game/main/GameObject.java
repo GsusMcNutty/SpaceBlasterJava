@@ -1,14 +1,16 @@
 package com.game.main;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 
 public abstract class GameObject {
 
-    protected int x, y, width, height;
+    protected float x, y;
+    protected int width, height;
     protected ID id;
-    protected int velX, velY;
+    protected float velX, velY;
     //GO constructor
-    public GameObject(int x, int y, int w, int h, ID id){
+    public GameObject(float x, float y, int w, int h, ID id){
         this.x = x;
         this.y = y;
         this.width = w;
@@ -20,6 +22,12 @@ public abstract class GameObject {
     public abstract void render(Graphics g);
     public abstract Rectangle getBounds();
 
+    protected void drawEllipse(Graphics g, double x, double y, double width, double height){
+        Graphics2D g2d = (Graphics2D) g;
+        Ellipse2D ellipse = new Ellipse2D.Double(x, y, width, height);
+        g2d.draw(ellipse);
+    }
+
     public void setId(ID id) {
         this.id = id;
     }
@@ -28,35 +36,35 @@ public abstract class GameObject {
         return id;
     }
 
-    public void setVelX(int velX) {
+    public void setVelX(float velX) {
         this.velX = velX;
     }
 
-    public int getVelX() {
+    public float getVelX() {
         return velX;
     }
 
-    public void setVelY(int velY) {
+    public void setVelY(float velY) {
         this.velY = velY;
     }
 
-    public int getVelY() {
+    public float getVelY() {
         return velY;
     }
 
-    public void setX(int x){
+    public void setX(float x){
         this.x = x;
     }
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public void setY(int y){
+    public void setY(float y){
         this.y =y;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 

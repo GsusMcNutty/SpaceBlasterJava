@@ -1,61 +1,51 @@
 package com.game.main;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
-public class EnemyBasic extends GameObject{
-    private Handler handler;
-    public EnemyBasic(int x, int y, int w, int h, ID id, Handler handler) {
-        super(x, y, w, h, id);
+public class EnemyBasic extends Ship{
+    private final Handler handler;
+    private final float speed;
+    public EnemyBasic(float x, float y, Handler handler) {
+        super(x, y, 20, 20, ID.Basic, handler, 3, 0, Color.red);
         this.handler = handler;
-
-        velX = 2;
-    }
-
-    @Override
-    public Rectangle getBounds() {
-        return new Rectangle(x, y, width, height);
+        speed = 2f;
     }
 
     @Override
     public void tick() {
-        x += velX;
-        y += velY;
-
-        if(y <= 0 || y >= Game.HEIGHT ){
-            velY *= -1;
+        super.tick();
+        if(y <= -height*2){
+            y = Game.HEIGHT - height;
         }
-        if(x <= 0|| x >= Game.WIDTH){
-            velX *= -1;
+        if(y >= Game.HEIGHT + height){
+            y = -height;
         }
+        if(x <= -width){
+            x = Game.WIDTH - width;
+        }
+        if(x >= Game.WIDTH + width){
+            x = -width;
+        }
+        if (!this.tookDamage){
+            trackPlayer();
+        }
+        collision(this.id);
     }
+    public void trackPlayer() {
+            for (int i = 0; i < handler.objectLL.size(); i++) {
+                GameObject obj = handler.objectLL.get(i);
+                if (obj.getId() == ID.Player) {
+                    float difX =  this.getX() - obj.getX();
+                    float difY = this.getY() - obj.getY();
+                    float dist = (float) (Math.sqrt( (this.getX() - obj.getX()) * difX + difY * difY) );
 
-    private void collision(){
-        for(int i = 0; i < handler.objectLL.size(); i++){
-            GameObject obj = handler.objectLL.get(i);
-
-            if(obj.getId() == ID.Asteroids){
-                if(getBounds().intersects(obj.getBounds())){
-                    //life -= 1;
-                    //System.out.println(life);
-                    handler.removeObject(obj);
+                    this.setVelX( ((-1.0f/dist)* difX) * speed);
+                    this.setVelY( ((-1.0f/dist)*difY) * speed);
                 }
             }
-        }
     }
+
     public void render(Graphics g) {
-
-        drawRectangle(g, getX(), getY(), width,height);
-        //drawRectangle(g, Color.blue, getX(), getY()-10, width,height);
-
-    }
-
-    private void drawRectangle(Graphics g, double x, double y, double width, double height){
-        Graphics2D g2d = (Graphics2D) g;
-        double centerX = x;
-        double centerY = y;
-        Rectangle2D rectangle = new Rectangle2D.Double(centerX,centerY, width, height);
-        g2d.setColor(Color.RED);
-        g2d.draw(rectangle);
+        super.drawRectangle(g, getX(), getY(), width,height);
     }
 }

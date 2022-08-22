@@ -22,9 +22,9 @@ public class Game extends Canvas implements Runnable{
         this.addMouseListener(new MouseInput(handler));
 
         //Make Objects
-        handler.addObject(new Player(100,100, 20, 20, ID.Player, handler));
-        handler.addObject(new EnemyBasic(300,300, 20,20, ID.Basic, handler));
-        handler.addObject(new EnemyBasic(200,200, 20,20, ID.Basic, handler));
+        handler.addObject(new Player(100,100, handler));
+        handler.addObject(new EnemyBasic(300,300, handler));
+        handler.addObject(new Asteroid(200,200,  handler));
     }
     private void init(){
         handler = new Handler();
@@ -68,7 +68,7 @@ public class Game extends Canvas implements Runnable{
             if(System.currentTimeMillis() - timer > 1000){
                 timer += 1000;
                 //FPS Print
-                System.out.println("FPS: " + frames);
+                //System.out.println("FPS: " + frames);
             }
         }
         stop();
