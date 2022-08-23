@@ -6,6 +6,8 @@ import java.util.LinkedList;
 public class Handler {
     LinkedList<GameObject> objectLL = new LinkedList<>();
 
+    private int asteroidsDestroyed = 0;
+    private int enemyBasicDestroyed = 0;
     public void tick(){
         for (int i = 0; i < objectLL.size(); i++) {
             objectLL.get(i).tick();
@@ -26,8 +28,27 @@ public class Handler {
 
     public void removeObject(GameObject obj){
         this.objectLL.remove(obj);
+        if(obj.getId() == ID.Asteroid){
+            asteroidsDestroyed++;
+        }
+        if(obj.getId() == ID.Basic){
+            enemyBasicDestroyed++;
+        }
     }
 
+    public int getAsteroidsDestroyed() {
+        return asteroidsDestroyed;
+    }
 
+    public int getEnemyBasicDestroyed() {
+        return enemyBasicDestroyed;
+    }
 
+    public void setAsteroidsDestroyed(int asteroidsDestroyed) {
+        this.asteroidsDestroyed = asteroidsDestroyed;
+    }
+
+    public void setEnemyBasicDestroyed(int enemyBasicDestroyed) {
+        this.enemyBasicDestroyed = enemyBasicDestroyed;
+    }
 }

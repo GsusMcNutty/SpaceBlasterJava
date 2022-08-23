@@ -2,8 +2,8 @@ package com.game.main;
 
 
 public enum Level {
-    LEVEL1(5,3,3, 0, false),
-    LEVEL2(10,5,5, 0, false),
+    LEVEL1(10,3,3, 0, false),
+    LEVEL2(10,10,5, 0, false),
     LEVEL3(15,10,10, 0,false),
     LEVEL4(20,15,15, 0,false),
     LEVEL5(25,15,10, 3, true),

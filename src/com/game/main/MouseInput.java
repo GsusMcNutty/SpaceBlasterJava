@@ -1,13 +1,12 @@
 package com.game.main;
 
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 
 public class MouseInput extends MouseAdapter implements MouseListener {
-    private  Handler handler;
+    private final Handler handler;
     private int mouseX;
     private int mouseY;
     private  GameObject shooter;
@@ -15,52 +14,24 @@ public class MouseInput extends MouseAdapter implements MouseListener {
         this.handler = handler;
     }
 
-    public void findPlayer(){
-        for(int i = 0; i < handler.objectLL.size(); i ++){
-            if (handler.objectLL.get(i).getId() == ID.Player) {
-                shooter = handler.objectLL.get(i);
-                break;
-            }
-        }
-    }
     @Override
     public void mousePressed(MouseEvent e) {
         if(e.getButton() == MouseEvent.BUTTON1){
             setMouseX(e.getX());
             setMouseY(e.getY());
+
             shootWeapon();
         }
-        if(e.getButton() == MouseEvent.BUTTON2){
-            System.out.println("Middle Click");
-        }
-        if(e.getButton() == MouseEvent.BUTTON3){
-
-            System.out.println("Right Click");
-        }
-
     }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        if(e.getButton() == MouseEvent.BUTTON1){
-
-            System.out.println("Left Click up");
-        }
-        if(e.getButton() == MouseEvent.BUTTON2){
-            System.out.println("Middle Click up");
-        }
-        if(e.getButton() == MouseEvent.BUTTON3){
-
-            System.out.println("Right Click up");
-
-        }
-
-    }
     public void findShooter(){
-        for(int i = 0; i < handler.objectLL.size(); i ++){
+
+        for(int i = 0; i < handler.objectLL.size(); i++) {
            {
-                shooter = handler.objectLL.get(i);
-                break;
+               GameObject obj = handler.objectLL.get(i);
+                if(obj.getId() == ID.Player){
+                    shooter = handler.objectLL.get(i);
+                }
             }
         }
     }
@@ -106,7 +77,4 @@ public class MouseInput extends MouseAdapter implements MouseListener {
         this.mouseY = mouseY;
     }
 
-    public GameObject getShooter() {
-        return shooter;
-    }
 }

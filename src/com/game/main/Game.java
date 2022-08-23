@@ -15,17 +15,15 @@ public class Game extends Canvas implements Runnable{
         init();
         //construct window
         new Window(WIDTH, HEIGHT, "Blaster", this);
-
-        hud = new HUD(handler);
         spawner = new EnemySpawner(handler);
+        hud = new HUD(handler);
         //KeyListener
-        this.addKeyListener(new KeyInput(handler,spawner));
+        this.addKeyListener(new KeyInput(handler));
         this.addMouseListener(new MouseInput(handler));
 
         //Make Objects
         handler.addObject(new Player(100,100, handler));
         handler.addObject(new EnemyBasic(300,300, handler));
-        handler.addObject(new Asteroid(200,200,  handler));
     }
     private void init(){
         handler = new Handler();
@@ -95,6 +93,10 @@ public class Game extends Canvas implements Runnable{
         hud.render(g);
         g.dispose();
         bs.show();
+    }
+
+    public EnemySpawner getSpawner() {
+        return spawner;
     }
 
     public static void main(String[] args){

@@ -5,14 +5,14 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 public abstract class Ship extends GameObject{
-    private final Handler handler;
+    private  Handler handler;
+    private EnemySpawner spawner;
     private int hull;
     private int shield;
     private int armor;
     protected boolean tookDamage;
     protected float timer;
-    private Color color;
-    private GameObject shooter;
+    private final Color color;
 
     protected Ship(float x, float y, int w, int h,ID id, Handler hL,int l, int s, Color c) {
         super(x, y, w, h, id, hL);
@@ -20,6 +20,7 @@ public abstract class Ship extends GameObject{
         this.hull = l;
         this.shield = s;
         this.color = c;
+        this.spawner = new EnemySpawner(handler);
     }
     public Rectangle getBounds(){
         return new Rectangle((int) getX(), (int) getY(), getWidth(), getHeight());
@@ -35,6 +36,7 @@ public abstract class Ship extends GameObject{
             }
         }
         if(this.hull == 0) {
+
             handler.removeObject(this);
         }
     }
@@ -46,7 +48,7 @@ public abstract class Ship extends GameObject{
                 if(getBounds().intersects(obj.getBounds())){
                     if (obj.getId() != ID.Projectile){
                         if(!tookDamage){
-                            System.out.println("Collision with a type Ship");
+                            //System.out.println("Collision with a type Ship");
                             setVelX(getVelX() * -1);
                             setVelY(getVelY() * -1);
                             takeDamage(DamageTypes.NotSpecial);
@@ -55,7 +57,7 @@ public abstract class Ship extends GameObject{
                     else{
                         if(obj.getOrigin() != this){
                             takeDamage(obj.getDamageType());
-                            System.out.println("Collision with a type Projectile");
+                            //System.out.println("Collision with a type Projectile");
                             handler.removeObject(obj);
                         }
 

@@ -1,53 +1,36 @@
 package com.game.main;
 
+import java.security.PublicKey;
 import java.util.Objects;
 import java.util.Random;
 
 public class EnemySpawner {
 
-    private Handler handler;
-    private HUD hud;
+    private final Handler handler;
     private Level level;
-    private Random r = new Random();
+    private final Random r = new Random();
     private LevelState state;
     private int curLevel;
     private int curSpawn;
     private int score;
     private int timer;
-    private boolean isSpawning = false;
-    private GameObject asteroid;
     private int astSpawned;
-    private GameObject enemyBasic;
+    private boolean astMaxed;
     private int eBasicSpawned;
 
     public EnemySpawner(Handler handler){
         this.handler = handler;
-        this.hud = hud;
         state = LevelState.START;
-        curLevel = 2;
+        curLevel = 1;
         level = Level.LEVEL1;
     }
     public void tick(){
         timer++;
+
         runSpawner();
     }
-
-    public void spawnEnemy(float x, float y, ID id){
-        if(isSpawning){
-            handler.addObject(new EnemyBasic(x,y, handler));
-            setSpawning(false);
-        }
-    }
-
-    public boolean isSpawning() {
-        return isSpawning;
-    }
-
-    public void setSpawning(boolean spawning) {
-        isSpawning = spawning;
-    }
     enum  LevelState {
-        START, SPAWNENEMIES, WAITINGTOSPAWN, ENDLEVEL, SWITCHLEVEL, PAUSED;
+        START, SPAWNENEMIES, WAITINGTOSPAWN, ENDLEVEL, SWITCHLEVEL, PAUSED
     }
     protected void runSpawner(){
         switch (state){
@@ -56,9 +39,12 @@ public class EnemySpawner {
                     System.out.println(level.toString());
                     System.out.println(level);
                     curSpawn = 0;
-                    astSpawned = 0;
+                    astSpawned=0;
                     eBasicSpawned = 0;
+                    handler.setAsteroidsDestroyed(0);
+                    handler.setEnemyBasicDestroyed(0);
                     state = LevelState.SPAWNENEMIES;
+                    System.out.println("Start");
 
                 }else {
                     state = LevelState.SWITCHLEVEL;
@@ -66,22 +52,23 @@ public class EnemySpawner {
                 }
                 break;
             case SPAWNENEMIES:
-                if(curSpawn <= level.totalEnemies){
-                    spawnEnemy();
-                    System.out.println(curSpawn);
-                    state = LevelState.WAITINGTOSPAWN;
-                    timer = 0;
-                    curSpawn++;
-                }
-                if(curSpawn >= level.totalEnemies){
+                spawnEnemy();
+
+                astSpawned = 0;
+                eBasicSpawned = 0;
+                state = LevelState.WAITINGTOSPAWN;
+
+                if(handler.getAsteroidsDestroyed() + handler.getEnemyBasicDestroyed() >= level.totalEnemies){
                     state = LevelState.ENDLEVEL;
                     curLevel++;
                 }
-
                break;
             case WAITINGTOSPAWN:
-                if(timer > r.nextInt(600-300)){
+                checkEnemies();
+                if(timer > r.nextInt(60-30)){
                     state = LevelState.SPAWNENEMIES;
+
+                    timer = 0;
                 }
                 break;
             case ENDLEVEL:
@@ -96,6 +83,7 @@ public class EnemySpawner {
             case SWITCHLEVEL:
                 ChooseLevel(curLevel);
                 state = LevelState.START;
+                System.out.println("LevelSwitch");
                 break;
             case PAUSED:
                 break;
@@ -105,16 +93,32 @@ public class EnemySpawner {
     }
 
     public void spawnEnemy(){
-        asteroid = new Asteroid(r.nextInt(Game.WIDTH), r.nextInt(Game.HEIGHT),handler);
-        enemyBasic = new EnemyBasic(r.nextInt(Game.WIDTH), r.nextInt(Game.HEIGHT),handler);
-            if(astSpawned <= level.maxNumberAsteroids){
+        GameObject asteroid = new Asteroid(r.nextInt(Game.WIDTH), Game.HEIGHT -20, handler);
+        GameObject enemyBasic = new EnemyBasic(-Game.WIDTH +100, r.nextInt(Game.HEIGHT-20), handler);
+
+            if(astSpawned < level.maxNumberAsteroids){
                 handler.addObject(asteroid);
-                astSpawned++;
             }
+
             if(level.canSpawnBasic){
-                if(eBasicSpawned <= level.maxNumberBasic){
+                if(eBasicSpawned < level.maxNumberBasic){
                     handler.addObject(enemyBasic);
+
+            }
+        }
+    }
+    public void checkEnemies(){
+        for (int i = 0; i < handler.objectLL.size(); i++){
+            GameObject obj = handler.objectLL.get(i);
+            if(obj.getId() == ID.Asteroid){
+                if(astSpawned < level.maxNumberAsteroids){
+                    astSpawned++;
+                }
+            }
+            if(obj.getId() == ID.Basic){
+                if(eBasicSpawned < level.maxNumberBasic){
                     eBasicSpawned++;
+                }
             }
         }
     }
@@ -130,4 +134,5 @@ public class EnemySpawner {
     public void setScore(int score) {
         this.score = score;
     }
+
 }

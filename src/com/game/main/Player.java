@@ -1,7 +1,6 @@
 package com.game.main;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class Player extends Ship {
     public Player(int x, int y, Handler handler) {

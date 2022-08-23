@@ -4,10 +4,10 @@ import java.awt.*;
 
 public class HUD {
 
-    private Handler handler;
+    private final Handler handler;
 
     private GameObject player;
-    private EnemySpawner spawner;
+    private final EnemySpawner spawner;
 
     private int hull;
     private int armor;
@@ -27,7 +27,6 @@ public class HUD {
 
     }
     public void render(Graphics g){
-        Graphics2D g2d = (Graphics2D) g;
         g.setColor(Color.lightGray);
         g.fillRect(10, 10,100, 30);
         g.setColor(Color.blue);

@@ -4,13 +4,12 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
 public abstract class Projectile extends GameObject{
-    private Color color;
-    private DamageTypes damageType;
+    private final Color color;
+
     public Projectile(float x, float y, int w, int h, ID id, Handler hL, Color c, DamageTypes d) {
         super(x, y, w, h, id, hL);
         this.color = c;
-        this.damageType = d;
-        setDamageType(damageType);
+        setDamageType(d);
     }
     @Override
     public void tick() {
