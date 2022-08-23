@@ -18,11 +18,10 @@ public class Asteroid extends Ship{
             if(x <= -width|| x >= Game.WIDTH - width){
                 setVelX(getVelX()*-1);
             }
-            collision(this.id);
+            collision();
         }
     public void render(Graphics g) {
-        super.drawEllipse(g, getX(), getY(), width,height);
-        g.setColor(Color.gray);
+        drawEllipse(g, getX(), getY(), width,height);
     }
 }
 

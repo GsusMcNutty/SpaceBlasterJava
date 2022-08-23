@@ -4,19 +4,21 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
-public abstract class Ship extends GameObject {
-    private Handler handler;
-    private int life;
-    private int shields;
+public abstract class Ship extends GameObject{
+    private final Handler handler;
+    private int hull;
+    private int shield;
+    private int armor;
     protected boolean tookDamage;
     protected float timer;
     private Color color;
+    private GameObject shooter;
 
     protected Ship(float x, float y, int w, int h,ID id, Handler hL,int l, int s, Color c) {
-        super(x, y, w, h, id);
+        super(x, y, w, h, id, hL);
         this.handler = hL;
-        this.life = l;
-        this.shields = s;
+        this.hull = l;
+        this.shield = s;
         this.color = c;
     }
     public Rectangle getBounds(){
@@ -28,71 +30,93 @@ public abstract class Ship extends GameObject {
         y += getVelY();
         if(tookDamage){
             timer++;
-            if(timer > 60){
+            if(timer > 30){
                 tookDamage = false;
             }
         }
+        if(this.hull == 0) {
+            handler.removeObject(this);
+        }
     }
-    protected void collision(ID id){
+
+    protected void collision(){
         for(int i = 0; i < handler.objectLL.size(); i++){
             GameObject obj = handler.objectLL.get(i);
-            if(obj.getId() != id){
+            if(obj.getId() != this.id){
                 if(getBounds().intersects(obj.getBounds())){
-                    setVelX(getVelX() * -1);
-                    setVelY(getVelY() * -1);
-                    if(this.shields > 0){
-                        takeDamage("Shield");
+                    if (obj.getId() != ID.Projectile){
+                        if(!tookDamage){
+                            System.out.println("Collision with a type Ship");
+                            setVelX(getVelX() * -1);
+                            setVelY(getVelY() * -1);
+                            takeDamage(DamageTypes.NotSpecial);
+                        }
                     }
                     else{
-                        if(this.life > 0){
-                            takeDamage("Hull");
+                        if(obj.getOrigin() != this){
+                            takeDamage(obj.getDamageType());
+                            System.out.println("Collision with a type Projectile");
+                            handler.removeObject(obj);
                         }
-                        if(this.life == 0) {
-                            System.out.println(this.life);
-                            handler.removeObject(this);
 
-                        }
                     }
                 }
             }
         }
     }
-    protected void takeDamage(String s){
-        switch (s){
-            case "Shield":
-                tookDamage = true;
-                this.shields --;
-                timer = 0;
-                System.out.println(this.shields + s + id);
-                break;
-            case "Hull":
-                tookDamage = true;
-                this.life--;
-                timer = 0;
-                System.out.println(this.life + s + id);
-                break;
-            case "Armor":
-                System.out.println("Damage type not implemented");
-                break;
-            case "SH":
-                tookDamage = true;
-                this.shields--;
-                this.life--;
-                timer = 0;
-                System.out.println(this.shields + s + id);
-                System.out.println(this.life + s + id);
-                break;
-            case "HA":
-                System.out.println("Damage type not implemented");
-                break;
-            case "SA":
-                System.out.println("Damage type not implemented");
-                break;
-            case "CoolDown":
 
+    protected void takeDamage(DamageTypes d){
+        switch (d){
+            case Shield:
+                tookDamage = true;
+                this.shield--;
+                timer = 0;
+                break;
+            case Hull:
+                tookDamage = true;
+                this.hull--;
+                timer = 0;
+                break;
+            case Armor:
+                tookDamage = true;
+                this.armor--;
+                timer = 0;
+                break;
+            case ShieldHull:
+                tookDamage = true;
+                this.shield--;
+                this.hull--;
+                timer = 0;
+                break;
+            case ArmorHull:
+                tookDamage = true;
+                this.armor--;
+                this.hull--;
+                break;
+            case ShieldAArmor:
+                tookDamage = true;
+                this.shield--;
+                this.armor--;
+                break;
+            case All:
+                tookDamage = true;
+                this.hull--;
+                this.shield--;
+                this.armor--;
+                break;
+            case NotSpecial:
+                if(this.shield > 0){
+                    takeDamage(DamageTypes.Shield);
+                }else{
+                    if(this.armor > 0){
+                        takeDamage(DamageTypes.Armor);
+                    }else{
+                        takeDamage(DamageTypes.Hull);
+                    }
+                }
                 break;
             default:
-                System.out.println("Not a Damage Type, Try: Shields, Hull, Armor, SH, HA, SA");
+                System.out.println("Not a Damage Type, Try: Shields, Hull, Armor, SH, HA, SA, All, or NotSpecial");
         }
 
     }
@@ -109,19 +133,19 @@ public abstract class Ship extends GameObject {
         g2d.draw(rectangle);
     }
 
-    public int getLife() {
-        return this.life;
+    public int getHull() {
+        return this.hull;
     }
 
-    public void setLife(int life) {
-        this.life = life;
+    public void setHull(int hull) {
+        this.hull = hull;
     }
 
-    public int getShields() {
-        return this.shields;
+    public int getShield() {
+        return this.shield;
     }
 
-    public void setShields(int shields) {
-        this.shields = shields;
+    public void setShield(int shield) {
+        this.shield = shield;
     }
 }

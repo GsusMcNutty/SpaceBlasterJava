@@ -8,8 +8,7 @@ public class Handler {
 
     public void tick(){
         for (int i = 0; i < objectLL.size(); i++) {
-            GameObject obj = objectLL.get(i);
-            obj.tick();
+            objectLL.get(i).tick();
         }
     }
 
@@ -20,12 +19,15 @@ public class Handler {
         }
     }
 
-    public void addObject(GameObject obj){
+    public GameObject addObject(GameObject obj){
         this.objectLL.add(obj);
+        return obj;
     }
 
     public void removeObject(GameObject obj){
         this.objectLL.remove(obj);
     }
+
+
 
 }

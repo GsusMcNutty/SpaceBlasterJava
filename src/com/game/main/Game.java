@@ -8,17 +8,18 @@ public class Game extends Canvas implements Runnable{
     private Thread thread;
     private boolean isRunning = false;
     private Handler handler;
-
     private EnemySpawner spawner;
+    private HUD hud;
 
     public Game(){
         init();
-
         //construct window
         new Window(WIDTH, HEIGHT, "Blaster", this);
 
+        hud = new HUD(handler);
+        spawner = new EnemySpawner(handler);
         //KeyListener
-        this.addKeyListener(new KeyInputs(handler,spawner));
+        this.addKeyListener(new KeyInput(handler,spawner));
         this.addMouseListener(new MouseInput(handler));
 
         //Make Objects
@@ -28,8 +29,6 @@ public class Game extends Canvas implements Runnable{
     }
     private void init(){
         handler = new Handler();
-        spawner = new EnemySpawner(handler);
-        spawner.setSpawning(false);
     }
     public synchronized void start(){
         thread = new Thread(this);
@@ -76,6 +75,8 @@ public class Game extends Canvas implements Runnable{
 
     private void tick(){
         handler.tick();
+        hud.tick();
+        spawner.tick();
     }
 
     private void render(){
@@ -91,7 +92,7 @@ public class Game extends Canvas implements Runnable{
 
         //Handler Drawing
         handler.render(g);
-
+        hud.render(g);
         g.dispose();
         bs.show();
     }

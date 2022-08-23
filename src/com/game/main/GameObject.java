@@ -1,32 +1,29 @@
 package com.game.main;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 
 public abstract class GameObject {
-
     protected float x, y;
     protected int width, height;
     protected ID id;
+    protected Handler handler;
     protected float velX, velY;
+    protected DamageTypes damageType;
+    protected GameObject origin;
+    protected int hull, armor, shield;
     //GO constructor
-    public GameObject(float x, float y, int w, int h, ID id){
+    public GameObject(float x, float y, int w, int h, ID id, Handler hl){
         this.x = x;
         this.y = y;
         this.width = w;
         this.height = h;
         this.id = id;
+        this.handler = hl;
     }
 
     public abstract void tick();
     public abstract void render(Graphics g);
     public abstract Rectangle getBounds();
-
-    protected void drawEllipse(Graphics g, double x, double y, double width, double height){
-        Graphics2D g2d = (Graphics2D) g;
-        Ellipse2D ellipse = new Ellipse2D.Double(x, y, width, height);
-        g2d.draw(ellipse);
-    }
 
     public void setId(ID id) {
         this.id = id;
@@ -82,5 +79,45 @@ public abstract class GameObject {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public DamageTypes getDamageType() {
+        return damageType;
+    }
+
+    public void setDamageType(DamageTypes damageType) {
+        this.damageType = damageType;
+    }
+
+    public GameObject getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(GameObject origin) {
+        this.origin = origin;
+    }
+
+    public int getShield() {
+        return shield;
+    }
+
+    public void setShield(int shield) {
+        this.shield = shield;
+    }
+
+    public int getArmor() {
+        return armor;
+    }
+
+    public void setArmor(int armor) {
+        this.armor = armor;
+    }
+
+    public int getHull() {
+        return hull;
+    }
+
+    public void setHull(int hull) {
+        this.hull = hull;
     }
 }
