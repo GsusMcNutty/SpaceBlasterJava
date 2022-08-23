@@ -68,6 +68,7 @@ public class Handler {
     public void setLevel(String level) {
         this.level = level;
     }
+
     public boolean isGameOver() {
         return !gameOver;
     }
