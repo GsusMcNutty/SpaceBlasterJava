@@ -36,7 +36,8 @@ public abstract class Ship extends GameObject{
         }
         if(this.hull == 0) {
             if(this.getId() == ID.Player){
-                handler.setScore(this.getId().scoreWorth);
+                handler.setScore(handler.getScore() + this.getId().scoreWorth);
+                handler.setGameOver(true);
             }
             handler.removeObject(this);
         }
@@ -76,16 +77,25 @@ public abstract class Ship extends GameObject{
             case Shield:
                 tookDamage = true;
                 this.shield--;
-                timer = 0;
-                break;
-            case Hull:
-                tookDamage = true;
-                this.hull--;
+                if(this.getId() == ID.Player){
+                    handler.setScore(handler.getScore() - 10);
+                }
                 timer = 0;
                 break;
             case Armor:
                 tookDamage = true;
                 this.armor--;
+                if(this.getId() == ID.Player){
+                    handler.setScore(handler.getScore() - 25);
+                }
+                timer = 0;
+                break;
+            case Hull:
+                tookDamage = true;
+                this.hull--;
+                if(this.getId() == ID.Player){
+                    handler.setScore(handler.getScore() - 50);
+                }
                 timer = 0;
                 break;
             case ShieldHull:

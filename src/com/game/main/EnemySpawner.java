@@ -12,7 +12,6 @@ public class EnemySpawner {
     private int curLevel;
     private int timer;
     private int astSpawned;
-    private boolean astMaxed;
     private int eBasicSpawned;
 
     public EnemySpawner(Handler handler){
@@ -35,6 +34,7 @@ public class EnemySpawner {
                 if (Objects.equals(level.toString(), "LEVEL" + curLevel)){
                     System.out.println(level.toString());
                     System.out.println(level);
+                    handler.setLevel("Level "+curLevel);
                     astSpawned=0;
                     eBasicSpawned = 0;
                     handler.setAsteroidsDestroyed(0);

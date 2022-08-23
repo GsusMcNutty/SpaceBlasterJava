@@ -8,10 +8,7 @@ public class HUD {
 
     private GameObject player;
 
-    private int hull;
     private int hullMax;
-    private int armor;
-    private int shield;
 
     public HUD (Handler handler){
         this.handler = handler;
@@ -22,13 +19,20 @@ public class HUD {
             findPlayer();
             //System.out.println("player not found");
         }
+        if(handler.getScore() <= 0){
+            handler.setGameOver(true);
+        }
     }
     public void render(Graphics g){
         g.setColor(Color.lightGray);
-        g.fillRect(10, 10,100, 30);
+        g.fillRect(10, 10,150, 30);
 
         g.setColor(Color.black);
         g.drawString( "Score "+handler.getScore(), 13,25);
+        if (handler.getLevel() != null){
+            g.drawString(handler.getLevel(), 100, 25);
+        }
+
 
         if(player!= null){
             drawShields(g);
@@ -36,11 +40,11 @@ public class HUD {
             drawHull(g);
         }
         g.setColor(Color.gray);
-        g.drawRect(10,10,100,30);
+        g.drawRect(10,10,150,30);
     }
 
     public void drawHull(Graphics g){
-        hull = player.getHull();
+        int hull = player.getHull();
         g.setColor(Color.red);
         g.fillRect(10 ,26,3+((hullMax)*10),14);
         for(int i = 0; i < hull; i ++){
@@ -53,7 +57,7 @@ public class HUD {
     }
 
     public void drawArmor(Graphics g){
-        armor = player.getArmor();
+        int armor = player.getArmor();
         for(int i = 0; i < armor; i ++){
             g.setColor(Color.darkGray);
             g.fillRect(10 ,27,10+((i+3)*10),12);
@@ -62,7 +66,7 @@ public class HUD {
         }
     }
     public void drawShields(Graphics g){
-        shield = player.getShield();
+        int shield = player.getShield();
         for(int i = 0; i < shield; i ++){
             g.setColor(Color.black);
             g.drawRect(10 ,27,15+((i+5)*10),12);

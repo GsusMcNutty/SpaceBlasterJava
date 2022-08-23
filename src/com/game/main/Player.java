@@ -5,6 +5,7 @@ import java.awt.*;
 public class Player extends Ship {
     public Player(int x, int y, Handler handler) {
         super(x, y, 20, 20, ID.Player, handler, 3,3, 3, Color.blue);
+
     }
 
     @Override
@@ -22,6 +23,7 @@ public class Player extends Ship {
         if(x >= Game.WIDTH + width){
             x = -width;
         }
+
         collision();
     }
 

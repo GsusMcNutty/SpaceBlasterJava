@@ -5,10 +5,11 @@ import java.util.LinkedList;
 
 public class Handler {
     LinkedList<GameObject> objectLL = new LinkedList<>();
-
+    private boolean gameOver = false;
     private int asteroidsDestroyed = 0;
     private int enemyBasicDestroyed = 0;
-    private int score = 0;
+    private int score = 10;
+    private String level;
     public void tick(){
         for (int i = 0; i < objectLL.size(); i++) {
             objectLL.get(i).tick();
@@ -59,5 +60,20 @@ public class Handler {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public boolean isGameOver() {
+        return !gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
     }
 }

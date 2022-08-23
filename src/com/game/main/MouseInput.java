@@ -9,7 +9,7 @@ public class MouseInput extends MouseAdapter implements MouseListener {
     private final Handler handler;
     private int mouseX;
     private int mouseY;
-    private  GameObject shooter;
+    private  GameObject player;
     public MouseInput(Handler handler){
         this.handler = handler;
     }
@@ -17,10 +17,14 @@ public class MouseInput extends MouseAdapter implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if(e.getButton() == MouseEvent.BUTTON1){
-            setMouseX(e.getX());
-            setMouseY(e.getY());
+            if(handler.isGameOver()){
+                if(player != null){
+                    setMouseX(e.getX());
+                    setMouseY(e.getY());
 
-            shootWeapon();
+                    shootWeapon();
+                } else findShooter();
+            }
         }
     }
 
@@ -30,30 +34,28 @@ public class MouseInput extends MouseAdapter implements MouseListener {
            {
                GameObject obj = handler.objectLL.get(i);
                 if(obj.getId() == ID.Player){
-                    shooter = handler.objectLL.get(i);
+                    player = handler.objectLL.get(i);
                 }
             }
         }
     }
     public void shootWeapon(){
-        if(shooter != null) {
-            double mX = getMouseX();
-            double mY = getMouseY();
-            float angle = (float) Math.atan2(mY - shooter.getY(), mX - shooter.getX());
-            int pVel = 5;
+        double mX = getMouseX();
+        double mY = getMouseY();
+        float angle = (float) Math.atan2(mY - player.getY(), mX - player.getX());
+        int pVel = 5;
 
-            GameObject projectile = handler.addObject(new DumbRound(shooter.getX(), shooter.getY(), handler, shooter));
+        GameObject projectile = handler.addObject(new DumbRound(player.getX(), player.getY(), handler, player));
 
-            projectile.velX = (float) (pVel * Math.cos(angle));
-            projectile.velY = (float) (pVel * Math.sin(angle));
-        }else{
-            findShooter();
-        }
+        projectile.velX = (float) (pVel * Math.cos(angle));
+        projectile.velY = (float) (pVel * Math.sin(angle));
+        handler.setScore(handler.getScore() + projectile.getId().scoreWorth);
+
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        findShooter();
     }
 
     @Override
