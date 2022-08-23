@@ -8,6 +8,7 @@ public class Handler {
 
     private int asteroidsDestroyed = 0;
     private int enemyBasicDestroyed = 0;
+    private int score = 0;
     public void tick(){
         for (int i = 0; i < objectLL.size(); i++) {
             objectLL.get(i).tick();
@@ -50,5 +51,13 @@ public class Handler {
 
     public void setEnemyBasicDestroyed(int enemyBasicDestroyed) {
         this.enemyBasicDestroyed = enemyBasicDestroyed;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

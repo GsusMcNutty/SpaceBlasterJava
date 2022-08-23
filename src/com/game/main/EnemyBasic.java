@@ -6,7 +6,7 @@ public class EnemyBasic extends Ship{
     private final Handler handler;
     private final float speed;
     public EnemyBasic(float x, float y, Handler handler) {
-        super(x, y, 20, 20, ID.Basic, handler, 3, 0, Color.red);
+        super(x, y, 20, 20, ID.Basic, handler, 3, 0, 0, Color.red);
         this.handler = handler;
         speed = 2f;
     }

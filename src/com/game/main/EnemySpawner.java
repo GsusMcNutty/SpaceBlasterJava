@@ -1,6 +1,5 @@
 package com.game.main;
 
-import java.security.PublicKey;
 import java.util.Objects;
 import java.util.Random;
 
@@ -11,8 +10,6 @@ public class EnemySpawner {
     private final Random r = new Random();
     private LevelState state;
     private int curLevel;
-    private int curSpawn;
-    private int score;
     private int timer;
     private int astSpawned;
     private boolean astMaxed;
@@ -38,7 +35,6 @@ public class EnemySpawner {
                 if (Objects.equals(level.toString(), "LEVEL" + curLevel)){
                     System.out.println(level.toString());
                     System.out.println(level);
-                    curSpawn = 0;
                     astSpawned=0;
                     eBasicSpawned = 0;
                     handler.setAsteroidsDestroyed(0);
@@ -103,7 +99,6 @@ public class EnemySpawner {
             if(level.canSpawnBasic){
                 if(eBasicSpawned < level.maxNumberBasic){
                     handler.addObject(enemyBasic);
-
             }
         }
     }
@@ -125,14 +120,6 @@ public class EnemySpawner {
     public void ChooseLevel(int l)
     {
         level = Level.valueOf("LEVEL"+l);
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 
 }

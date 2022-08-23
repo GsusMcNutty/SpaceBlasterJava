@@ -7,33 +7,68 @@ public class HUD {
     private final Handler handler;
 
     private GameObject player;
-    private final EnemySpawner spawner;
 
     private int hull;
+    private int hullMax;
     private int armor;
     private int shield;
 
     public HUD (Handler handler){
         this.handler = handler;
-        this.spawner = new EnemySpawner(handler);
     }
 
     public void tick(){
-        if(player != null){
-            hull = player.getHull();
-            armor = player.getArmor();
-            shield = player.getShield();
-        } else findPlayer();
-
+        if(player == null){
+            findPlayer();
+            //System.out.println("player not found");
+        }
     }
     public void render(Graphics g){
         g.setColor(Color.lightGray);
         g.fillRect(10, 10,100, 30);
-        g.setColor(Color.blue);
-        g.drawRect(10,10,100,30);
 
         g.setColor(Color.black);
-        g.drawString( "Score "+spawner.getScore(), 15,25);
+        g.drawString( "Score "+handler.getScore(), 13,25);
+
+        if(player!= null){
+            drawShields(g);
+            drawArmor(g);
+            drawHull(g);
+        }
+        g.setColor(Color.gray);
+        g.drawRect(10,10,100,30);
+    }
+
+    public void drawHull(Graphics g){
+        hull = player.getHull();
+        g.setColor(Color.red);
+        g.fillRect(10 ,26,3+((hullMax)*10),14);
+        for(int i = 0; i < hull; i ++){
+            g.setColor(Color.green);
+            g.fillRect(10 ,26,3+((i+1)*10),14);
+            g.setColor(Color.darkGray);
+            g.drawRect(10 ,26,3+((i+1)*10),15);
+        }
+
+    }
+
+    public void drawArmor(Graphics g){
+        armor = player.getArmor();
+        for(int i = 0; i < armor; i ++){
+            g.setColor(Color.darkGray);
+            g.fillRect(10 ,27,10+((i+3)*10),12);
+            g.setColor(Color.black);
+            g.drawRect(10 ,27,9+((i+3)*10),12);
+        }
+    }
+    public void drawShields(Graphics g){
+        shield = player.getShield();
+        for(int i = 0; i < shield; i ++){
+            g.setColor(Color.black);
+            g.drawRect(10 ,27,15+((i+5)*10),12);
+            g.setColor(Color.blue);
+            g.drawRect(10 ,27,14+((i+5)*10),12);
+        }
     }
 
     public void findPlayer(){
@@ -41,7 +76,9 @@ public class HUD {
             {
                 if(handler.objectLL.get(i).getId() == ID.Player){
                 player = handler.objectLL.get(i);
-                break;
+                hullMax = player.getHull();
+                //System.out.println("player found");
+                    break;
                 }
 
             }

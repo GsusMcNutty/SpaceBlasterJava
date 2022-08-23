@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Asteroid extends Ship{
         public Asteroid(int x, int y, Handler handler) {
-            super(x, y, 20, 20, ID.Asteroid,handler,1, 0, Color.gray);
+            super(x, y, 20, 20, ID.Asteroid,handler,1, 0, 0, Color.gray);
 
             setVelX(2);
             setVelY(-2);

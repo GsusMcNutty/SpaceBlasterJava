@@ -6,7 +6,6 @@ import java.awt.geom.Rectangle2D;
 
 public abstract class Ship extends GameObject{
     private  Handler handler;
-    private EnemySpawner spawner;
     private int hull;
     private int shield;
     private int armor;
@@ -14,13 +13,13 @@ public abstract class Ship extends GameObject{
     protected float timer;
     private final Color color;
 
-    protected Ship(float x, float y, int w, int h,ID id, Handler hL,int l, int s, Color c) {
+    protected Ship(float x, float y, int w, int h,ID id, Handler hL,int l, int a, int s, Color c) {
         super(x, y, w, h, id, hL);
         this.handler = hL;
         this.hull = l;
+        this.armor = a;
         this.shield = s;
         this.color = c;
-        this.spawner = new EnemySpawner(handler);
     }
     public Rectangle getBounds(){
         return new Rectangle((int) getX(), (int) getY(), getWidth(), getHeight());
@@ -36,7 +35,9 @@ public abstract class Ship extends GameObject{
             }
         }
         if(this.hull == 0) {
-
+            if(this.getId() == ID.Player){
+                handler.setScore(this.getId().scoreWorth);
+            }
             handler.removeObject(this);
         }
     }
@@ -57,6 +58,9 @@ public abstract class Ship extends GameObject{
                     else{
                         if(obj.getOrigin() != this){
                             takeDamage(obj.getDamageType());
+                            if((obj.getOrigin().getId() == ID.Player && this.hull == 0)){
+                                handler.setScore(handler.getScore()+ this.getId().scoreWorth);
+                            }
                             //System.out.println("Collision with a type Projectile");
                             handler.removeObject(obj);
                         }
@@ -134,19 +138,29 @@ public abstract class Ship extends GameObject{
         g2d.setColor(color);
         g2d.draw(rectangle);
     }
-
+    @Override
     public int getHull() {
         return this.hull;
     }
-
+    @Override
     public void setHull(int hull) {
         this.hull = hull;
     }
 
+    @Override
+    public int getArmor() {
+        return armor;
+    }
+
+    @Override
+    public void setArmor(int armor) {
+        this.armor = armor;
+    }
+    @Override
     public int getShield() {
         return this.shield;
     }
-
+    @Override
     public void setShield(int shield) {
         this.shield = shield;
     }
