@@ -29,7 +29,6 @@ public class EnemyBasic extends Ship{
         if (!this.tookDamage){
             trackPlayer();
         }
-        collision();
     }
     public void trackPlayer() {
             for (int i = 0; i < handler.objectLL.size(); i++) {
@@ -47,5 +46,10 @@ public class EnemyBasic extends Ship{
 
     public void render(Graphics g) {
         drawRectangle(g, getX(), getY(), width,height);
+    }
+
+    @Override
+    public void collisionResult() {
+
     }
 }

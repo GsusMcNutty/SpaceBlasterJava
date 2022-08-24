@@ -13,10 +13,10 @@ public abstract class Ship extends GameObject{
     protected float timer;
     private final Color color;
 
-    protected Ship(float x, float y, int w, int h,ID id, Handler hL,int l, int a, int s, Color c) {
+    protected Ship(float x, float y, int w, int h,ID id, Handler hL,int hu, int a, int s, Color c) {
         super(x, y, w, h, id, hL);
         this.handler = hL;
-        this.hull = l;
+        this.hull = h;
         this.armor = a;
         this.shield = s;
         this.color = c;
@@ -45,7 +45,9 @@ public abstract class Ship extends GameObject{
         }
     }
 
-    protected void collision(){
+
+/*
+    public void collision(){
         for(int i = 0; i < handler.objectLL.size(); i++){
             GameObject obj = handler.objectLL.get(i);
             if(obj.getId() != this.id){
@@ -73,11 +75,14 @@ public abstract class Ship extends GameObject{
         }
     }
 
+ */
+
     protected void takeDamage(DamageTypes d){
         switch (d){
             case Shield:
                 tookDamage = true;
                 this.shield--;
+                System.out.println(this.shield);
                 if(this.getId() == ID.Player){
                     //handler.setScore(handler.getScore() - 10);
                 }

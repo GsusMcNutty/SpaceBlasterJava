@@ -1,5 +1,6 @@
 package com.game.main;
 
+import java.awt.*;
 import java.util.Objects;
 import java.util.Random;
 
@@ -97,7 +98,7 @@ public class Spawner {
     }
 
     public void spawnEnemy(){
-        GameObject asteroid = new Asteroid(r.nextInt(Game.WIDTH), Game.HEIGHT -20, handler);
+        GameObject asteroid = new Asteroid(r.nextInt(Game.WIDTH), Game.HEIGHT -20, 10,10,ID.Asteroid,handler,1,0,0, Color.gray);
         GameObject enemyBasic = new EnemyBasic(-Game.WIDTH +100, r.nextInt(Game.HEIGHT-20), handler);
 
             if(astSpawned < level.maxNumberAsteroids){

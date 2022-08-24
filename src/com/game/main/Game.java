@@ -107,7 +107,6 @@ public class Game extends Canvas implements Runnable{
         if(pData == null){
             pData = new PlayerData();
         }
-
         pData.resetPlayerData();
     }
     public void InitGameData(){

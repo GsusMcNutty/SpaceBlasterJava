@@ -11,5 +11,10 @@ public class DumbRound extends Projectile{
         drawEllipse(g, getX(), getY(), width,height);
     }
 
+    @Override
+    public void collisionResult() {
+
+    }
+
 
 }

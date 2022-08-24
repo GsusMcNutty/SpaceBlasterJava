@@ -28,6 +28,18 @@ public abstract class GameObject{
     public abstract void tick();
     public abstract void render(Graphics g);
     public abstract Rectangle getBounds();
+    public abstract void collisionResult();
+    public ID collision(){
+        ID collide = this.getId();
+        for(int i = 0; i < handler.objectLL.size(); i++){
+             GameObject obj = handler.objectLL.get(i);
+                if(getBounds().intersects(obj.getBounds())) {
+                    collide = obj.getId();
+                    //System.out.println(collide);
+            }
+        }
+        return collide;
+    }
 
     public void setId(ID id) {
         this.id = id;
