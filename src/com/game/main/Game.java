@@ -1,5 +1,7 @@
 package com.game.main;
 
+import com.sun.org.apache.xml.internal.security.Init;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -8,26 +10,29 @@ public class Game extends Canvas implements Runnable{
     private Thread thread;
     private boolean isRunning = false;
     private Handler handler;
-    private EnemySpawner spawner;
+    private Spawner spawner;
     private HUD hud;
+    private PlayerData pData;
+    private GameData gData;
 
     public Game(){
-        init();
         //construct window
         new Window(WIDTH, HEIGHT, "Blaster", this);
-        hud = new HUD(handler);
-        spawner = new EnemySpawner(handler);
+        InitPlayer();
+        InitGameData();
+        handler = new Handler(gData);
+
+        spawner = new Spawner(handler, pData, gData);
+        hud = new HUD(handler, pData);
+
         //KeyListener
         this.addKeyListener(new KeyInput(handler));
         this.addMouseListener(new MouseInput(handler));
-
+        // TODO: 8/23/2022 move player creation to spawner
         //Make Objects
-        handler.addObject(new Player(100,100, handler));
-        handler.addObject(new EnemyBasic(300,300, handler));
+        handler.addObject(new Player(100,100, handler, pData));
     }
-    private void init(){
-        handler = new Handler();
-    }
+
     public synchronized void start(){
         thread = new Thread(this);
         thread.start();
@@ -73,8 +78,8 @@ public class Game extends Canvas implements Runnable{
     }
 
     private void tick(){
-        if(handler.isGameOver()){
             handler.tick();
+        if(!handler.isGameOver()){
             hud.tick();
             spawner.tick();
         }
@@ -96,6 +101,25 @@ public class Game extends Canvas implements Runnable{
         hud.render(g);
         g.dispose();
         bs.show();
+    }
+
+    public void InitPlayer(){
+        if(pData == null){
+            pData = new PlayerData();
+        }
+
+        pData.resetPlayerData();
+    }
+    public void InitGameData(){
+        if(gData == null){
+            gData = new GameData(pData);
+        }
+        gData.setStartingLevel(1);
+        gData.setStartScore(10);
+    }
+    public void Restart(){
+        gData.setStartScore(10);
+        gData.setCurLevel(gData.getSavedLevel());
     }
 
     public static void main(String[] args){

@@ -28,6 +28,7 @@ public abstract class Ship extends GameObject{
     public void tick() {
         x += getVelX();
         y += getVelY();
+
         if(tookDamage){
             timer++;
             if(timer > 30){
@@ -36,10 +37,11 @@ public abstract class Ship extends GameObject{
         }
         if(this.hull == 0) {
             if(this.getId() == ID.Player){
-                handler.setScore(handler.getScore() + this.getId().scoreWorth);
                 handler.setGameOver(true);
             }
-            handler.removeObject(this);
+            if(this.getId() != ID.Player){
+                handler.removeObject(this);
+            }
         }
     }
 
@@ -60,7 +62,6 @@ public abstract class Ship extends GameObject{
                         if(obj.getOrigin() != this){
                             takeDamage(obj.getDamageType());
                             if((obj.getOrigin().getId() == ID.Player && this.hull == 0)){
-                                handler.setScore(handler.getScore()+ this.getId().scoreWorth);
                             }
                             //System.out.println("Collision with a type Projectile");
                             handler.removeObject(obj);
@@ -78,7 +79,7 @@ public abstract class Ship extends GameObject{
                 tookDamage = true;
                 this.shield--;
                 if(this.getId() == ID.Player){
-                    handler.setScore(handler.getScore() - 10);
+                    //handler.setScore(handler.getScore() - 10);
                 }
                 timer = 0;
                 break;
@@ -86,7 +87,7 @@ public abstract class Ship extends GameObject{
                 tookDamage = true;
                 this.armor--;
                 if(this.getId() == ID.Player){
-                    handler.setScore(handler.getScore() - 25);
+                    //handler.setScore(handler.getScore() - 25);
                 }
                 timer = 0;
                 break;
@@ -94,7 +95,7 @@ public abstract class Ship extends GameObject{
                 tookDamage = true;
                 this.hull--;
                 if(this.getId() == ID.Player){
-                    handler.setScore(handler.getScore() - 50);
+                    //handler.setScore(handler.getScore() - 50);
                 }
                 timer = 0;
                 break;
@@ -157,7 +158,6 @@ public abstract class Ship extends GameObject{
         this.hull = hull;
     }
 
-    @Override
     public int getArmor() {
         return armor;
     }

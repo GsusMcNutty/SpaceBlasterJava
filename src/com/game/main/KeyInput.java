@@ -28,7 +28,10 @@ public class KeyInput extends KeyAdapter {
 
             }
         }
-        if(key == KeyEvent.VK_R) System.out.println("REstart");
+        if(key == KeyEvent.VK_R) {
+            System.out.println("Restart");
+            //handler.resetObjects();
+        }
     }
 
     public void keyReleased(KeyEvent e){

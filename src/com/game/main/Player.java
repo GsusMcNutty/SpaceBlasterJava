@@ -3,7 +3,10 @@ package com.game.main;
 import java.awt.*;
 
 public class Player extends Ship {
-    public Player(int x, int y, Handler handler) {
+    int life;
+
+
+    public Player(int x, int y, Handler handler, PlayerData playerData) {
         super(x, y, 20, 20, ID.Player, handler, 3,3, 3, Color.blue);
 
     }
@@ -23,19 +26,10 @@ public class Player extends Ship {
         if(x >= Game.WIDTH + width){
             x = -width;
         }
-
         collision();
     }
 
     public void render(Graphics g) {
         drawRectangle(g, getX(), getY(), width,height);
-    /*  for(int i = 0; i < getShield(); i ++) {
-            drawRectangle(g, getX(), getY(), width+(i+1)*10, height+(i+1)*10);
-        }
-
-     */
     }
-
-
-
 }

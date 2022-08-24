@@ -3,9 +3,11 @@ package com.game.main;
 import java.util.Objects;
 import java.util.Random;
 
-public class EnemySpawner {
+public class Spawner {
 
     private final Handler handler;
+    private final PlayerData pData;
+    private final GameData gData;
     private Level level;
     private final Random r = new Random();
     private LevelState state;
@@ -14,8 +16,10 @@ public class EnemySpawner {
     private int astSpawned;
     private int eBasicSpawned;
 
-    public EnemySpawner(Handler handler){
+    public Spawner(Handler handler, PlayerData playerData, GameData gameData){
         this.handler = handler;
+        this.pData = playerData;
+        this.gData = gameData;
         state = LevelState.START;
         curLevel = 1;
         level = Level.LEVEL1;
@@ -26,7 +30,7 @@ public class EnemySpawner {
         runSpawner();
     }
     enum  LevelState {
-        START, SPAWNENEMIES, WAITINGTOSPAWN, ENDLEVEL, SWITCHLEVEL, PAUSED
+        START, SPAWNENEMIES, WAITINGTOSPAWN, ENDLEVEL, SWITCHLEVEL, PAUSED, RESETGAME,GAMEOVER
     }
     protected void runSpawner(){
         switch (state){
@@ -37,8 +41,8 @@ public class EnemySpawner {
                     handler.setLevel("Level "+curLevel);
                     astSpawned=0;
                     eBasicSpawned = 0;
-                    handler.setAsteroidsDestroyed(0);
-                    handler.setEnemyBasicDestroyed(0);
+                    gData.setAsteroidsDestroyed(0);
+                    gData.setEnemyBasicDestroyed(0);
                     state = LevelState.SPAWNENEMIES;
                     System.out.println("Start");
 
@@ -54,7 +58,7 @@ public class EnemySpawner {
                 eBasicSpawned = 0;
                 state = LevelState.WAITINGTOSPAWN;
 
-                if(handler.getAsteroidsDestroyed() + handler.getEnemyBasicDestroyed() >= level.totalEnemies){
+                if(gData.getAsteroidsDestroyed() + gData.getEnemyBasicDestroyed() >= level.totalEnemies){
                     state = LevelState.ENDLEVEL;
                     curLevel++;
                 }
@@ -82,6 +86,10 @@ public class EnemySpawner {
                 System.out.println("LevelSwitch");
                 break;
             case PAUSED:
+                break;
+            case GAMEOVER:
+                break;
+            case RESETGAME:
                 break;
             default:
                 System.out.println("Unknown State");

@@ -2,14 +2,19 @@ package com.game.main;
 
 import java.awt.*;
 
-public abstract class GameObject {
+public abstract class GameObject{
     protected float x, y;
     protected int width, height;
     protected ID id;
     protected Handler handler;
     protected float velX, velY;
-    protected DamageTypes damageType;
+    //origin for if it is "spawned from another obj"
     protected GameObject origin;
+
+    // TODO: 8/23/2022 remove damagetype from GO
+    protected DamageTypes damageType;
+
+    // TODO: 8/23/2022 move hull armor shield to child class
     protected int hull, armor, shield;
     //GO constructor
     public GameObject(float x, float y, int w, int h, ID id, Handler hl){
@@ -20,7 +25,6 @@ public abstract class GameObject {
         this.id = id;
         this.handler = hl;
     }
-
     public abstract void tick();
     public abstract void render(Graphics g);
     public abstract Rectangle getBounds();
@@ -64,7 +68,6 @@ public abstract class GameObject {
     public float getY() {
         return y;
     }
-
     public int getWidth() {
         return width;
     }
@@ -80,6 +83,13 @@ public abstract class GameObject {
     public void setHeight(int height) {
         this.height = height;
     }
+    public GameObject getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(GameObject origin) {
+        this.origin = origin;
+    }
 
     public DamageTypes getDamageType() {
         return damageType;
@@ -87,14 +97,6 @@ public abstract class GameObject {
 
     public void setDamageType(DamageTypes damageType) {
         this.damageType = damageType;
-    }
-
-    public GameObject getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(GameObject origin) {
-        this.origin = origin;
     }
 
     public int getShield() {

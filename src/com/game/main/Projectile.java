@@ -27,7 +27,6 @@ public abstract class Projectile extends GameObject{
         }
         if(x >= Game.WIDTH + width){
             handler.removeObject(this);
-
         }
     }
 
