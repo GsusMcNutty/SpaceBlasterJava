@@ -22,7 +22,7 @@ public class Spawner {
         this.pData = playerData;
         this.gData = gameData;
         state = LevelState.START;
-        curLevel = 1;
+        curLevel = 4;
         level = Level.LEVEL1;
     }
     public void tick(){
@@ -98,7 +98,7 @@ public class Spawner {
     }
 
     public void spawnEnemy(){
-        GameObject asteroid = new Asteroid(r.nextInt(Game.WIDTH), Game.HEIGHT -20, 10,10,ID.Asteroid,handler,1,0,0, Color.gray);
+        GameObject asteroid = new Asteroid(r.nextInt(Game.WIDTH), Game.HEIGHT -20, 20,20,ID.Asteroid,handler,1,0,0, Color.gray, r.nextInt( 3- 1) + 1, r.nextInt(3-1)+1);
         GameObject enemyBasic = new EnemyBasic(-Game.WIDTH +100, r.nextInt(Game.HEIGHT-20), handler);
 
             if(astSpawned < level.maxNumberAsteroids){

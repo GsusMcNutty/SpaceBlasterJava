@@ -41,10 +41,22 @@ public class KeyInput extends KeyAdapter {
             GameObject obj = handler.objectLL.get(i);
 
             if(obj.getId() == ID.Player){
-                if(key == KeyEvent.VK_W) obj.setVelY(0);
-                if(key == KeyEvent.VK_A) obj.setVelX(0);
-                if(key == KeyEvent.VK_S) obj.setVelY(0);
-                if(key == KeyEvent.VK_D) obj.setVelX(0);
+                if(key == KeyEvent.VK_W) {
+                    obj.setLastVelY(-10);
+                    obj.setVelY(0);
+                }
+                if(key == KeyEvent.VK_A){
+                    obj.setLastVelX(-10);
+                    obj.setVelX(0);
+                }
+                if(key == KeyEvent.VK_S) {
+                    obj.setLastVelY(10);
+                    obj.setVelY(0);
+                }
+                if(key == KeyEvent.VK_D){
+                    obj.setLastVelX(10);
+                    obj.setVelX(0);
+                }
             }
         }
     }

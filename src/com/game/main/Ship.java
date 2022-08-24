@@ -21,10 +21,6 @@ public abstract class Ship extends GameObject{
         this.shield = s;
         this.color = c;
     }
-    public Rectangle getBounds(){
-        return new Rectangle((int) getX(), (int) getY(), getWidth(), getHeight());
-    }
-
     public void tick() {
         x += getVelX();
         y += getVelY();
@@ -55,8 +51,7 @@ public abstract class Ship extends GameObject{
                     if (obj.getId() != ID.Projectile){
                         if(!tookDamage){
                             //System.out.println("Collision with a type Ship");
-                            setVelX(getVelX() * -1);
-                            setVelY(getVelY() * -1);
+
                             takeDamage(DamageTypes.NotSpecial);
                         }
                     }
@@ -76,6 +71,7 @@ public abstract class Ship extends GameObject{
     }
 
  */
+    // TODO: 8/24/2022 get damage && HUD feedback working
 
     protected void takeDamage(DamageTypes d){
         switch (d){
@@ -99,6 +95,7 @@ public abstract class Ship extends GameObject{
             case Hull:
                 tookDamage = true;
                 this.hull--;
+                System.out.println(this.hull);
                 if(this.getId() == ID.Player){
                     //handler.setScore(handler.getScore() - 50);
                 }
@@ -153,30 +150,5 @@ public abstract class Ship extends GameObject{
         Rectangle2D rectangle = new Rectangle2D.Double(x, y, width, height);
         g2d.setColor(color);
         g2d.draw(rectangle);
-    }
-    @Override
-    public int getHull() {
-        return this.hull;
-    }
-    @Override
-    public void setHull(int hull) {
-        this.hull = hull;
-    }
-
-    public int getArmor() {
-        return armor;
-    }
-
-    @Override
-    public void setArmor(int armor) {
-        this.armor = armor;
-    }
-    @Override
-    public int getShield() {
-        return this.shield;
-    }
-    @Override
-    public void setShield(int shield) {
-        this.shield = shield;
     }
 }

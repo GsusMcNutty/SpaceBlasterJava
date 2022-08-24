@@ -18,8 +18,9 @@ public class Game extends Canvas implements Runnable{
     public Game(){
         //construct window
         new Window(WIDTH, HEIGHT, "Blaster", this);
-        InitPlayer();
         InitGameData();
+        InitPlayerData();
+
         handler = new Handler(gData);
 
         spawner = new Spawner(handler, pData, gData);
@@ -28,9 +29,8 @@ public class Game extends Canvas implements Runnable{
         //KeyListener
         this.addKeyListener(new KeyInput(handler));
         this.addMouseListener(new MouseInput(handler));
-        // TODO: 8/23/2022 move player creation to spawner
         //Make Objects
-        handler.addObject(new Player(100,100, handler, pData));
+        handler.addObject(new Player( handler, pData));
     }
 
     public synchronized void start(){
@@ -78,9 +78,13 @@ public class Game extends Canvas implements Runnable{
     }
 
     private void tick(){
+        if(handler!=null){
             handler.tick();
-        if(!handler.isGameOver()){
+        }
+        if(hud != null){
             hud.tick();
+        }
+        if(spawner != null){
             spawner.tick();
         }
     }
@@ -97,13 +101,18 @@ public class Game extends Canvas implements Runnable{
         g.fillRect(0,0, WIDTH, HEIGHT);
 
         //Handler Drawing
-        handler.render(g);
-        hud.render(g);
+        if(handler!=null){
+            handler.render(g);
+        }
+        if(hud!=null){
+            hud.render(g);
+        }
+        else System.out.println("hud renderer null");
         g.dispose();
         bs.show();
     }
 
-    public void InitPlayer(){
+    public void InitPlayerData(){
         if(pData == null){
             pData = new PlayerData();
         }
@@ -113,11 +122,10 @@ public class Game extends Canvas implements Runnable{
         if(gData == null){
             gData = new GameData(pData);
         }
-        gData.setStartingLevel(1);
-        gData.setStartScore(10);
+        gData.setScore(gData.getStartScore());
     }
     public void Restart(){
-        gData.setStartScore(10);
+        gData.setScore(gData.getStartScore());
         gData.setCurLevel(gData.getSavedLevel());
     }
 

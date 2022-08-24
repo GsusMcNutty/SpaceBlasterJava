@@ -16,5 +16,4 @@ public class DumbRound extends Projectile{
 
     }
 
-
 }

@@ -9,7 +9,7 @@ public abstract class Projectile extends GameObject{
     public Projectile(float x, float y, int w, int h, ID id, Handler hL, Color c, DamageTypes d) {
         super(x, y, w, h, id, hL);
         this.color = c;
-        setDamageType(d);
+        //setDamageType(d);
     }
     @Override
     public void tick() {

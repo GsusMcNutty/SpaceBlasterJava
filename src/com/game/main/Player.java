@@ -3,9 +3,12 @@ package com.game.main;
 import java.awt.*;
 
 public class Player extends Ship {
-    public Player(int x, int y, Handler handler, PlayerData playerData) {
-        super(x, y, 20, 20, ID.Player, handler, 3,3, 3, Color.blue);
-
+    private Handler handler;
+    private PlayerData pData;
+    public Player(Handler handler, PlayerData pData) {
+        super(pData.getStartX(), pData.getStartY(), pData.getWidth(), pData.getHeight(), pData.getId(), handler, pData.getHull(), pData.getArmor(), pData.getShield(), pData.getColor());
+        this.pData = pData;
+        this.handler = handler;
     }
 
     @Override
@@ -23,24 +26,33 @@ public class Player extends Ship {
         if(x >= Game.WIDTH + width){
             x = -width;
         }
-        collisionResult();
+        this.collisionResult();
     }
 
     public void render(Graphics g) {
         drawRectangle(g, getX(), getY(), width,height);
     }
-
+    public Rectangle getBounds(){
+        return new Rectangle((int) this.getX(), (int) this.getY(), this.getWidth()/2, this.getHeight()/2);
+    }
     @Override
     public void collisionResult() {
-        if(this.collision() != this.id){
-            if(this.collision() != ID.Projectile){
-                if(!tookDamage){
-                    System.out.println("Collision with a type Ship");
-                    takeDamage(DamageTypes.NotSpecial);
+        for(int i = 0; i < handler.objectLL.size(); i++){
+            GameObject obj = handler.objectLL.get(i);
+            if(obj.getId() != this.id){
+                if(getBounds().intersects(obj.getBounds())) {
+                    if (this.collision() != ID.Projectile) {
+                        if (!tookDamage) {
+                            System.out.println("Player Collision with a type Ship");
+                            this.takeDamage(DamageTypes.NotSpecial);
+                            setVelX(getVelX() * -1);
+                            setVelY(getVelY() * -1);
+                        }
+                    }
+                    if (this.collision() == ID.Projectile) {
+                        //System.out.println("Collision with a type Projectile");
+                    }
                 }
-            }
-            if(this.collision() == ID.Projectile){
-                System.out.println("Collision with a type Projectile");
             }
         }
     }

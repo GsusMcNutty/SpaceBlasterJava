@@ -29,6 +29,7 @@ public class EnemyBasic extends Ship{
         if (!this.tookDamage){
             trackPlayer();
         }
+        collisionResult();
     }
     public void trackPlayer() {
             for (int i = 0; i < handler.objectLL.size(); i++) {
@@ -47,9 +48,23 @@ public class EnemyBasic extends Ship{
     public void render(Graphics g) {
         drawRectangle(g, getX(), getY(), width,height);
     }
-
+    public Rectangle getBounds(){
+        return new Rectangle((int) getX(), (int) getY(), getWidth(), getHeight());
+    }
     @Override
     public void collisionResult() {
-
+        if(this.collision() != this.id){
+            if(this.collision() != ID.Projectile){
+                if(!tookDamage){
+                    System.out.println("Collision with a type Ship");
+                    takeDamage(DamageTypes.NotSpecial);
+                    setVelX(getVelX() * -1);
+                    setVelY(getVelY() * -1);
+                }
+            }
+            if(this.collision() == ID.Projectile){
+                System.out.println("Collision with a type Projectile");
+            }
+        }
     }
 }

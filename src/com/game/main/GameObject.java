@@ -8,14 +8,10 @@ public abstract class GameObject{
     protected ID id;
     protected Handler handler;
     protected float velX, velY;
+    protected float lastVelX, lastVelY;
     //origin for if it is "spawned from another obj"
     protected GameObject origin;
-
-    // TODO: 8/23/2022 remove damagetype from GO
-    protected DamageTypes damageType;
-
-    // TODO: 8/23/2022 move hull armor shield to child class
-    protected int hull, armor, shield;
+    protected boolean hasCollision;
     //GO constructor
     public GameObject(float x, float y, int w, int h, ID id, Handler hl){
         this.x = x;
@@ -29,6 +25,7 @@ public abstract class GameObject{
     public abstract void render(Graphics g);
     public abstract Rectangle getBounds();
     public abstract void collisionResult();
+    
     public ID collision(){
         ID collide = this.getId();
         for(int i = 0; i < handler.objectLL.size(); i++){
@@ -40,6 +37,8 @@ public abstract class GameObject{
         }
         return collide;
     }
+
+
 
     public void setId(ID id) {
         this.id = id;
@@ -63,6 +62,22 @@ public abstract class GameObject{
 
     public float getVelY() {
         return velY;
+    }
+
+    public float getLastVelX() {
+        return lastVelX;
+    }
+
+    public void setLastVelX(float lastVelX) {
+        this.lastVelX = lastVelX;
+    }
+
+    public float getLastVelY() {
+        return lastVelY;
+    }
+
+    public void setLastVelY(float lastVelY) {
+        this.lastVelY = lastVelY;
     }
 
     public void setX(float x){
@@ -101,37 +116,5 @@ public abstract class GameObject{
 
     public void setOrigin(GameObject origin) {
         this.origin = origin;
-    }
-
-    public DamageTypes getDamageType() {
-        return damageType;
-    }
-
-    public void setDamageType(DamageTypes damageType) {
-        this.damageType = damageType;
-    }
-
-    public int getShield() {
-        return shield;
-    }
-
-    public void setShield(int shield) {
-        this.shield = shield;
-    }
-
-    public int getArmor() {
-        return armor;
-    }
-
-    public void setArmor(int armor) {
-        this.armor = armor;
-    }
-
-    public int getHull() {
-        return hull;
-    }
-
-    public void setHull(int hull) {
-        this.hull = hull;
     }
 }

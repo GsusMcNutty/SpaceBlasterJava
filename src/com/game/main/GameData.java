@@ -3,12 +3,11 @@ package com.game.main;
 public  class GameData {
 
     private Handler handler;
-    private PlayerData playerData;
 
-    private int asteroidsDestroyed, enemyBasicDestroyed;
-    private int startingLevel, savedLevel, curLevel;
+    private int asteroidsDestroyed = 0, enemyBasicDestroyed = 0;
+    private int startingLevel = 1, savedLevel =1, curLevel = 1;
 
-    private int startScore, score;
+    private int startScore = 10, score = 0;
 /*
     public void resetObjects(){
         setGameOver(true);
@@ -21,11 +20,8 @@ public  class GameData {
             }
         }
     }
-
  */
     public GameData( PlayerData playerData){
-        this.playerData = playerData;
-        startingLevel = 1;
     }
 
     public int getAsteroidsDestroyed() {

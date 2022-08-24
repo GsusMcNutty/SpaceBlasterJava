@@ -2,20 +2,61 @@ package com.game.main;
 import java.awt.*;
 
 public class PlayerData {
-    private int hull , armor, shield;
-    private int maxHull, maxArmor, maxShield;
-    private Color color;
+    private ID id = ID.Player;
+    private float startX = 100, startY = 100;
+    private int width = 20, height = 20;
+    private int hull = 0, armor = 0, shield = 0;
+    private int maxHull = 3, maxArmor = 3, maxShield = 3;
+    private Color color = Color.blue;
     private HUD hud;
+    private DamageTypes damageTypes;
 
     public PlayerData(){
-        maxHull = 3;
-        maxArmor = 3;
-        maxShield =3;
     }
     public void resetPlayerData(){
         setHull(getMaxHull());
         setArmor(getMaxArmor());
         setShield(getMaxShield());
+    }
+
+    public ID getId() {
+        return id;
+    }
+
+    public void setId(ID id) {
+        this.id = id;
+    }
+
+    public float getStartX() {
+        return startX;
+    }
+
+    public void setStartX(float startX) {
+        this.startX = startX;
+    }
+
+    public float getStartY() {
+        return startY;
+    }
+
+    public void setStartY(float startY) {
+        this.startY = startY;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     public int getHull() {
@@ -80,5 +121,13 @@ public class PlayerData {
 
     public void setMaxShield(int maxShield) {
         this.maxShield = maxShield;
+    }
+
+    public DamageTypes getDamageTypes() {
+        return damageTypes;
+    }
+
+    public void setDamageTypes(DamageTypes damageTypes) {
+        this.damageTypes = damageTypes;
     }
 }
