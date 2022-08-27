@@ -1,5 +1,7 @@
 package com.game.main;
 
+import com.sun.org.apache.xml.internal.security.Init;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -8,26 +10,31 @@ public class Game extends Canvas implements Runnable{
     private Thread thread;
     private boolean isRunning = false;
     private Handler handler;
-    private EnemySpawner spawner;
+    private Spawner spawner;
     private HUD hud;
+    private PlayerData pData;
+    private GameData gData;
+    private ProjectileData projData;
 
     public Game(){
-        init();
         //construct window
         new Window(WIDTH, HEIGHT, "Blaster", this);
-        hud = new HUD(handler);
-        spawner = new EnemySpawner(handler);
+        InitGameData();
+        InitPlayerData();
+
+        handler = new Handler(gData);
+
+        spawner = new Spawner(handler, pData, gData);
+        hud = new HUD(handler, pData);
+        projData = new ProjectileData();
+
         //KeyListener
         this.addKeyListener(new KeyInput(handler));
         this.addMouseListener(new MouseInput(handler));
-
         //Make Objects
-        handler.addObject(new Player(100,100, handler));
-        handler.addObject(new EnemyBasic(300,300, handler));
+        handler.addObject(new Player( handler, pData));
     }
-    private void init(){
-        handler = new Handler();
-    }
+
     public synchronized void start(){
         thread = new Thread(this);
         thread.start();
@@ -73,9 +80,13 @@ public class Game extends Canvas implements Runnable{
     }
 
     private void tick(){
-        if(handler.isGameOver()){
+        if(handler!=null){
             handler.tick();
+        }
+        if(hud != null){
             hud.tick();
+        }
+        if(spawner != null){
             spawner.tick();
         }
     }
@@ -92,10 +103,32 @@ public class Game extends Canvas implements Runnable{
         g.fillRect(0,0, WIDTH, HEIGHT);
 
         //Handler Drawing
-        handler.render(g);
-        hud.render(g);
+        if(handler!=null){
+            handler.render(g);
+        }
+        if(hud!=null){
+            hud.render(g);
+        }
+        else System.out.println("hud renderer null");
         g.dispose();
         bs.show();
+    }
+
+    public void InitPlayerData(){
+        if(pData == null){
+            pData = new PlayerData();
+        }
+        pData.resetPlayerData();
+    }
+    public void InitGameData(){
+        if(gData == null){
+            gData = new GameData(pData);
+        }
+        gData.setScore(gData.getStartScore());
+    }
+    public void Restart(){
+        gData.setScore(gData.getStartScore());
+        gData.setCurLevel(gData.getSavedLevel());
     }
 
     public static void main(String[] args){

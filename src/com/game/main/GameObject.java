@@ -2,15 +2,16 @@ package com.game.main;
 
 import java.awt.*;
 
-public abstract class GameObject {
+public abstract class GameObject{
     protected float x, y;
     protected int width, height;
     protected ID id;
     protected Handler handler;
     protected float velX, velY;
-    protected DamageTypes damageType;
+    protected float lastVelX, lastVelY;
+    //origin for if it is "spawned from another obj"
     protected GameObject origin;
-    protected int hull, armor, shield;
+    protected boolean hasCollision;
     //GO constructor
     public GameObject(float x, float y, int w, int h, ID id, Handler hl){
         this.x = x;
@@ -20,10 +21,24 @@ public abstract class GameObject {
         this.id = id;
         this.handler = hl;
     }
-
     public abstract void tick();
     public abstract void render(Graphics g);
     public abstract Rectangle getBounds();
+    public abstract void collisionResult();
+    
+    public ID collision(){
+        ID collide = this.getId();
+        for(int i = 0; i < handler.objectLL.size(); i++){
+             GameObject obj = handler.objectLL.get(i);
+                if(getBounds().intersects(obj.getBounds())) {
+                    collide = obj.getId();
+                    //System.out.println(collide);
+            }
+        }
+        return collide;
+    }
+
+
 
     public void setId(ID id) {
         this.id = id;
@@ -49,6 +64,22 @@ public abstract class GameObject {
         return velY;
     }
 
+    public float getLastVelX() {
+        return lastVelX;
+    }
+
+    public void setLastVelX(float lastVelX) {
+        this.lastVelX = lastVelX;
+    }
+
+    public float getLastVelY() {
+        return lastVelY;
+    }
+
+    public void setLastVelY(float lastVelY) {
+        this.lastVelY = lastVelY;
+    }
+
     public void setX(float x){
         this.x = x;
     }
@@ -64,7 +95,6 @@ public abstract class GameObject {
     public float getY() {
         return y;
     }
-
     public int getWidth() {
         return width;
     }
@@ -80,44 +110,11 @@ public abstract class GameObject {
     public void setHeight(int height) {
         this.height = height;
     }
-
-    public DamageTypes getDamageType() {
-        return damageType;
-    }
-
-    public void setDamageType(DamageTypes damageType) {
-        this.damageType = damageType;
-    }
-
     public GameObject getOrigin() {
         return origin;
     }
 
     public void setOrigin(GameObject origin) {
         this.origin = origin;
-    }
-
-    public int getShield() {
-        return shield;
-    }
-
-    public void setShield(int shield) {
-        this.shield = shield;
-    }
-
-    public int getArmor() {
-        return armor;
-    }
-
-    public void setArmor(int armor) {
-        this.armor = armor;
-    }
-
-    public int getHull() {
-        return hull;
-    }
-
-    public void setHull(int hull) {
-        this.hull = hull;
     }
 }

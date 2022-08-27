@@ -1,7 +1,7 @@
 package com.game.main;
 
 
-public enum Level {
+public enum LevelData {
     LEVEL1(10,3,3, 0, false),
     LEVEL2(10,10,5, 0, false),
     LEVEL3(15,10,10, 0,false),
@@ -19,7 +19,7 @@ public enum Level {
     final int maxNumberBasic;
     final boolean canSpawnBasic;
 
-    Level (int totalEnemies, int maxEnemies, int maxNumberAsteroids, int maxNumberBasic, boolean canSpawnBasic){
+    LevelData(int totalEnemies, int maxEnemies, int maxNumberAsteroids, int maxNumberBasic, boolean canSpawnBasic){
         this.totalEnemies = totalEnemies;
         this.maxEnemies = maxEnemies;
         this.maxNumberAsteroids = maxNumberAsteroids;

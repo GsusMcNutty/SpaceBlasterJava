@@ -10,6 +10,7 @@ public class MouseInput extends MouseAdapter implements MouseListener {
     private int mouseX;
     private int mouseY;
     private  GameObject player;
+    private ProjectileData projectileD;
     public MouseInput(Handler handler){
         this.handler = handler;
     }
@@ -17,7 +18,7 @@ public class MouseInput extends MouseAdapter implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if(e.getButton() == MouseEvent.BUTTON1){
-            if(handler.isGameOver()){
+            if(!handler.isGameOver()){
                 if(player != null){
                     setMouseX(e.getX());
                     setMouseY(e.getY());
@@ -49,7 +50,6 @@ public class MouseInput extends MouseAdapter implements MouseListener {
 
         projectile.velX = (float) (pVel * Math.cos(angle));
         projectile.velY = (float) (pVel * Math.sin(angle));
-        handler.setScore(handler.getScore() + projectile.getId().scoreWorth);
 
     }
 

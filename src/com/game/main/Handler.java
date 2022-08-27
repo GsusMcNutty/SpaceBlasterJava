@@ -4,15 +4,24 @@ import java.awt.*;
 import java.util.LinkedList;
 
 public class Handler {
-    LinkedList<GameObject> objectLL = new LinkedList<>();
+    public LinkedList<GameObject> objectLL = new LinkedList<>();
     private boolean gameOver = false;
-    private int asteroidsDestroyed = 0;
-    private int enemyBasicDestroyed = 0;
-    private int score = 10;
+    private boolean restart = false;
     private String level;
+    private GameData gData;
+
+    public Handler(GameData gameData){
+        this.gData = gameData;
+
+    }
     public void tick(){
-        for (int i = 0; i < objectLL.size(); i++) {
-            objectLL.get(i).tick();
+        if(!gameOver){
+            for (int i = 0; i < objectLL.size(); i++) {
+                objectLL.get(i).tick();
+            }
+        }
+        if(restart){
+            //gdata.resetObjects();
         }
     }
 
@@ -31,36 +40,13 @@ public class Handler {
     public void removeObject(GameObject obj){
         this.objectLL.remove(obj);
         if(obj.getId() == ID.Asteroid){
-            asteroidsDestroyed++;
+            gData.setAsteroidsDestroyed(gData.getAsteroidsDestroyed()-1);
         }
         if(obj.getId() == ID.Basic){
-            enemyBasicDestroyed++;
+            gData.setEnemyBasicDestroyed(gData.getEnemyBasicDestroyed()-1);
         }
     }
 
-    public int getAsteroidsDestroyed() {
-        return asteroidsDestroyed;
-    }
-
-    public int getEnemyBasicDestroyed() {
-        return enemyBasicDestroyed;
-    }
-
-    public void setAsteroidsDestroyed(int asteroidsDestroyed) {
-        this.asteroidsDestroyed = asteroidsDestroyed;
-    }
-
-    public void setEnemyBasicDestroyed(int enemyBasicDestroyed) {
-        this.enemyBasicDestroyed = enemyBasicDestroyed;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
 
     public String getLevel() {
         return level;
@@ -70,10 +56,14 @@ public class Handler {
     }
 
     public boolean isGameOver() {
-        return !gameOver;
+        return gameOver;
     }
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
+    }
+
+    public GameData getGData() {
+        return gData;
     }
 }

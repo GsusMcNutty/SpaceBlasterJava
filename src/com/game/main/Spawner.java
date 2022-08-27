@@ -1,12 +1,15 @@
 package com.game.main;
 
+import java.awt.*;
 import java.util.Objects;
 import java.util.Random;
 
-public class EnemySpawner {
+public class Spawner {
 
     private final Handler handler;
-    private Level level;
+    private final PlayerData pData;
+    private final GameData gData;
+    private LevelData level;
     private final Random r = new Random();
     private LevelState state;
     private int curLevel;
@@ -14,11 +17,13 @@ public class EnemySpawner {
     private int astSpawned;
     private int eBasicSpawned;
 
-    public EnemySpawner(Handler handler){
+    public Spawner(Handler handler, PlayerData playerData, GameData gameData){
         this.handler = handler;
+        this.pData = playerData;
+        this.gData = gameData;
         state = LevelState.START;
-        curLevel = 1;
-        level = Level.LEVEL1;
+        curLevel = 4;
+        level = LevelData.LEVEL1;
     }
     public void tick(){
         timer++;
@@ -26,7 +31,7 @@ public class EnemySpawner {
         runSpawner();
     }
     enum  LevelState {
-        START, SPAWNENEMIES, WAITINGTOSPAWN, ENDLEVEL, SWITCHLEVEL, PAUSED
+        START, SPAWNENEMIES, WAITINGTOSPAWN, ENDLEVEL, SWITCHLEVEL, PAUSED, RESETGAME,GAMEOVER
     }
     protected void runSpawner(){
         switch (state){
@@ -37,8 +42,8 @@ public class EnemySpawner {
                     handler.setLevel("Level "+curLevel);
                     astSpawned=0;
                     eBasicSpawned = 0;
-                    handler.setAsteroidsDestroyed(0);
-                    handler.setEnemyBasicDestroyed(0);
+                    gData.setAsteroidsDestroyed(0);
+                    gData.setEnemyBasicDestroyed(0);
                     state = LevelState.SPAWNENEMIES;
                     System.out.println("Start");
 
@@ -54,7 +59,7 @@ public class EnemySpawner {
                 eBasicSpawned = 0;
                 state = LevelState.WAITINGTOSPAWN;
 
-                if(handler.getAsteroidsDestroyed() + handler.getEnemyBasicDestroyed() >= level.totalEnemies){
+                if(gData.getAsteroidsDestroyed() + gData.getEnemyBasicDestroyed() >= level.totalEnemies){
                     state = LevelState.ENDLEVEL;
                     curLevel++;
                 }
@@ -68,7 +73,7 @@ public class EnemySpawner {
                 }
                 break;
             case ENDLEVEL:
-                if(curLevel < Level.values().length){
+                if(curLevel < LevelData.values().length){
                     state = LevelState.SWITCHLEVEL;
                 }
                 else{
@@ -83,13 +88,17 @@ public class EnemySpawner {
                 break;
             case PAUSED:
                 break;
+            case GAMEOVER:
+                break;
+            case RESETGAME:
+                break;
             default:
                 System.out.println("Unknown State");
         }
     }
 
     public void spawnEnemy(){
-        GameObject asteroid = new Asteroid(r.nextInt(Game.WIDTH), Game.HEIGHT -20, handler);
+        GameObject asteroid = new Asteroid(r.nextInt(Game.WIDTH), Game.HEIGHT -20, 20,20,ID.Asteroid,handler,1,0,0, Color.gray, r.nextInt( 3- 1) + 1, r.nextInt(3-1)+1);
         GameObject enemyBasic = new EnemyBasic(-Game.WIDTH +100, r.nextInt(Game.HEIGHT-20), handler);
 
             if(astSpawned < level.maxNumberAsteroids){
@@ -119,7 +128,7 @@ public class EnemySpawner {
     }
     public void ChooseLevel(int l)
     {
-        level = Level.valueOf("LEVEL"+l);
+        level = LevelData.valueOf("LEVEL"+l);
     }
 
 }
