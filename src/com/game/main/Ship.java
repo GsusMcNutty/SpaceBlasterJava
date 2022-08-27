@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
-public abstract class Ship extends GameObject{
+public abstract class Ship extends GameObject {
     private  Handler handler;
     private int hull;
     private int shield;
@@ -13,13 +13,13 @@ public abstract class Ship extends GameObject{
     protected float timer;
     private final Color color;
 
-    protected Ship(float x, float y, int w, int h,ID id, Handler hL,int hu, int a, int s, Color c) {
+    protected Ship(float x, float y, int w, int h,ID id, Handler hL, int s, int a, int hl, Color c) {
         super(x, y, w, h, id, hL);
         this.handler = hL;
-        this.hull = h;
+        this.color = c;
+        this.hull = hl;
         this.armor = a;
         this.shield = s;
-        this.color = c;
     }
     public void tick() {
         x += getVelX();
@@ -33,15 +33,15 @@ public abstract class Ship extends GameObject{
         }
         if(this.hull == 0) {
             if(this.getId() == ID.Player){
-                handler.setGameOver(true);
+                //handler.setGameOver(true);
             }
             if(this.getId() != ID.Player){
-                handler.removeObject(this);
+                //handler.removeObject(this);
             }
         }
     }
 
-
+// TODO: 8/27/2022 finish merging collision with individual classes
 /*
     public void collision(){
         for(int i = 0; i < handler.objectLL.size(); i++){
@@ -78,7 +78,7 @@ public abstract class Ship extends GameObject{
             case Shield:
                 tookDamage = true;
                 this.shield--;
-                System.out.println(this.shield);
+                System.out.println(this.getId() + " Shield "+ this.shield);
                 if(this.getId() == ID.Player){
                     //handler.setScore(handler.getScore() - 10);
                 }
@@ -95,7 +95,7 @@ public abstract class Ship extends GameObject{
             case Hull:
                 tookDamage = true;
                 this.hull--;
-                System.out.println(this.hull);
+                System.out.println(this.getId() +" Hull "+this.hull);
                 if(this.getId() == ID.Player){
                     //handler.setScore(handler.getScore() - 50);
                 }
@@ -139,6 +139,8 @@ public abstract class Ship extends GameObject{
         }
 
     }
+
+
     protected void drawEllipse(Graphics g, double x, double y, double width, double height){
         Graphics2D g2d = (Graphics2D) g;
         Ellipse2D ellipse = new Ellipse2D.Double(x, y, width, height);

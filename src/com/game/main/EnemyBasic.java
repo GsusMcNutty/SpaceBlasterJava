@@ -5,8 +5,10 @@ import java.awt.*;
 public class EnemyBasic extends Ship{
     private final Handler handler;
     private final float speed;
+
+    // TODO: 8/27/2022 pull data into here like the player does from its data class 
     public EnemyBasic(float x, float y, Handler handler) {
-        super(x, y, 20, 20, ID.Basic, handler, 3, 0, 0, Color.red);
+        super(x, y, 20, 20, ID.Basic, handler, 0, 0, 3, Color.red);
         this.handler = handler;
         speed = 2f;
     }

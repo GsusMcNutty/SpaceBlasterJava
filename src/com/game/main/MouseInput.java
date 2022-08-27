@@ -10,6 +10,7 @@ public class MouseInput extends MouseAdapter implements MouseListener {
     private int mouseX;
     private int mouseY;
     private  GameObject player;
+    private ProjectileData projectileD;
     public MouseInput(Handler handler){
         this.handler = handler;
     }

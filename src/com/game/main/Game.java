@@ -14,6 +14,7 @@ public class Game extends Canvas implements Runnable{
     private HUD hud;
     private PlayerData pData;
     private GameData gData;
+    private ProjectileData projData;
 
     public Game(){
         //construct window
@@ -25,6 +26,7 @@ public class Game extends Canvas implements Runnable{
 
         spawner = new Spawner(handler, pData, gData);
         hud = new HUD(handler, pData);
+        projData = new ProjectileData();
 
         //KeyListener
         this.addKeyListener(new KeyInput(handler));

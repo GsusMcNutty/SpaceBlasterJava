@@ -9,7 +9,7 @@ public class Spawner {
     private final Handler handler;
     private final PlayerData pData;
     private final GameData gData;
-    private Level level;
+    private LevelData level;
     private final Random r = new Random();
     private LevelState state;
     private int curLevel;
@@ -23,7 +23,7 @@ public class Spawner {
         this.gData = gameData;
         state = LevelState.START;
         curLevel = 4;
-        level = Level.LEVEL1;
+        level = LevelData.LEVEL1;
     }
     public void tick(){
         timer++;
@@ -73,7 +73,7 @@ public class Spawner {
                 }
                 break;
             case ENDLEVEL:
-                if(curLevel < Level.values().length){
+                if(curLevel < LevelData.values().length){
                     state = LevelState.SWITCHLEVEL;
                 }
                 else{
@@ -128,7 +128,7 @@ public class Spawner {
     }
     public void ChooseLevel(int l)
     {
-        level = Level.valueOf("LEVEL"+l);
+        level = LevelData.valueOf("LEVEL"+l);
     }
 
 }

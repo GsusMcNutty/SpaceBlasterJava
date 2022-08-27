@@ -5,8 +5,9 @@ import java.awt.geom.Ellipse2D;
 
 public abstract class Projectile extends GameObject{
     private final Color color;
+    private DamageTypes damage;
 
-    public Projectile(float x, float y, int w, int h, ID id, Handler hL, Color c, DamageTypes d) {
+    public Projectile(float x, float y, int w, int h, ID id, Handler hL, Color c) {
         super(x, y, w, h, id, hL);
         this.color = c;
         //setDamageType(d);
@@ -40,4 +41,11 @@ public abstract class Projectile extends GameObject{
         g2d.draw(ellipse);
     }
 
+    public DamageTypes getDamage() {
+        return damage;
+    }
+
+    public void setDamage(DamageTypes damage) {
+        this.damage = damage;
+    }
 }

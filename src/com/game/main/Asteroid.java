@@ -4,8 +4,10 @@ import java.awt.*;
 
 public class Asteroid extends Ship{
     private Handler handler;
+
+    // TODO: 8/27/2022 pull data into here like the player does from its data class
         public Asteroid(int x, int y, int w, int h, ID id, Handler handler, int hl, int a, int s, Color color, int vX, int vY) {
-            super(x, y, w, h, id, handler,h ,a ,s , color);
+            super(x, y, w, h, id, handler, 0, 0, 1, color);
             this.handler = handler;
             setVelX(vX);
             setVelY(-vY);
