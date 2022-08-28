@@ -9,10 +9,11 @@ public class Handler {
     private boolean restart = false;
     private String level;
     private GameData gData;
+    private PlayerData pData;
 
-    public Handler(GameData gameData){
+    public Handler(GameData gameData, PlayerData playerData){
         this.gData = gameData;
-
+        this.pData = playerData;
     }
     public void tick(){
         if(!gameOver){
@@ -40,10 +41,12 @@ public class Handler {
     public void removeObject(GameObject obj){
         this.objectLL.remove(obj);
         if(obj.getId() == ID.Asteroid){
-            gData.setAsteroidsDestroyed(gData.getAsteroidsDestroyed()-1);
+            gData.setAsteroidsDestroyed(gData.getAsteroidsDestroyed()+1);
+            System.out.println(gData.getAsteroidsDestroyed());
         }
         if(obj.getId() == ID.Basic){
-            gData.setEnemyBasicDestroyed(gData.getEnemyBasicDestroyed()-1);
+            gData.setEnemyBasicDestroyed(gData.getEnemyBasicDestroyed()+1);
+            System.out.println(gData.getEnemyBasicDestroyed());
         }
     }
 
@@ -65,5 +68,9 @@ public class Handler {
 
     public GameData getGData() {
         return gData;
+    }
+
+    public PlayerData getpData() {
+        return pData;
     }
 }

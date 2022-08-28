@@ -22,7 +22,7 @@ public class Game extends Canvas implements Runnable{
         InitGameData();
         InitPlayerData();
 
-        handler = new Handler(gData);
+        handler = new Handler(gData,pData);
 
         spawner = new Spawner(handler, pData, gData);
         hud = new HUD(handler, pData);
@@ -32,7 +32,7 @@ public class Game extends Canvas implements Runnable{
         this.addKeyListener(new KeyInput(handler));
         this.addMouseListener(new MouseInput(handler));
         //Make Objects
-        handler.addObject(new Player( handler, pData));
+        handler.addObject(new Player( handler, pData, gData));
     }
 
     public synchronized void start(){
@@ -80,15 +80,14 @@ public class Game extends Canvas implements Runnable{
     }
 
     private void tick(){
-        if(handler!=null){
-            handler.tick();
-        }
-        if(hud != null){
-            hud.tick();
-        }
-        if(spawner != null){
-            spawner.tick();
-        }
+        if(handler==null) return;
+        handler.tick();
+
+        if(hud == null) return;
+        hud.tick();
+
+        if(spawner == null) return;
+        spawner.tick();
     }
 
     private void render(){
@@ -103,13 +102,12 @@ public class Game extends Canvas implements Runnable{
         g.fillRect(0,0, WIDTH, HEIGHT);
 
         //Handler Drawing
-        if(handler!=null){
-            handler.render(g);
-        }
-        if(hud!=null){
-            hud.render(g);
-        }
-        else System.out.println("hud renderer null");
+        if(handler==null) return;
+        handler.render(g);
+
+        if(hud==null) return;
+        hud.render(g);
+
         g.dispose();
         bs.show();
     }

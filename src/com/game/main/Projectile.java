@@ -41,6 +41,7 @@ public abstract class Projectile extends GameObject{
         g2d.draw(ellipse);
     }
 
+    // TODO: 8/27/2022 will be used later?
     public DamageTypes getDamage() {
         return damage;
     }

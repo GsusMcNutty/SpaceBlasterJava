@@ -6,7 +6,6 @@ public class HUD {
 
     private final Handler h;
     private final PlayerData pD;
-    private GameObject player;
     private GameData gData;
 
     public HUD (Handler handler, PlayerData playerData){
@@ -16,18 +15,7 @@ public class HUD {
     }
 
     public void tick(){
-        /*
-        if(playerData == null){
-            findPlayer();
-            //System.out.println("player not found");
-        }
 
-
-        if(gData.getScore() <= 0){
-            h.setGameOver(true);
-        }
-
-         */
     }
     public void render(Graphics g){
         g.setColor(Color.lightGray);
@@ -39,8 +27,8 @@ public class HUD {
             g.drawString(h.getLevel(), 100, 25);
         }
 
-
         if(pD != null){
+            //System.out.println("drawing hud");
             drawShields(g);
             drawArmor(g);
             drawHull(g);
@@ -49,7 +37,9 @@ public class HUD {
         g.drawRect(10,10,150,30);
     }
 
+    // TODO: 8/27/2022 need to migrate data from or to player data 
     public void drawHull(Graphics g){
+        //red background for hull
         g.setColor(Color.red);
         g.fillRect(10 ,26,3+((pD.getMaxHull())*10),14);
         for(int i = 0; i < pD.getHull(); i ++){
@@ -58,7 +48,6 @@ public class HUD {
             g.setColor(Color.darkGray);
             g.drawRect(10 ,26,3+((i+1)*10),15);
         }
-
     }
 
     public void drawArmor(Graphics g){
@@ -71,24 +60,11 @@ public class HUD {
     }
     public void drawShields(Graphics g){
         for(int i = 0; i < pD.getShield(); i ++){
+            System.out.println("drawing shield" + i);
             g.setColor(Color.black);
             g.drawRect(10 ,27,15+((i+5)*10),12);
             g.setColor(Color.blue);
             g.drawRect(10 ,27,14+((i+5)*10),12);
         }
     }
-
-    public void findPlayer(){
-        for(int i = 0; i < h.objectLL.size(); i ++){
-            {
-                if(h.objectLL.get(i).getId() == ID.Player){
-                player = h.objectLL.get(i);
-                //System.out.println("player found");
-                    break;
-                }
-
-            }
-        }
-    }
-
 }

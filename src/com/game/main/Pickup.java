@@ -15,7 +15,7 @@ public abstract class Pickup extends GameObject{
 
     @Override
     public void render(Graphics g) {
-        // TODO: 8/22/2022 goes to next child 
+        // TODO: 8/22/2022 goes to super
     }
 
     @Override

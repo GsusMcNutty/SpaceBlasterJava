@@ -11,7 +11,6 @@ public abstract class GameObject{
     protected float lastVelX, lastVelY;
     //origin for if it is "spawned from another obj"
     protected GameObject origin;
-    protected boolean hasCollision;
     //GO constructor
     public GameObject(float x, float y, int w, int h, ID id, Handler hl){
         this.x = x;
@@ -25,20 +24,6 @@ public abstract class GameObject{
     public abstract void render(Graphics g);
     public abstract Rectangle getBounds();
     public abstract void collisionResult();
-    
-    public ID collision(){
-        ID collide = this.getId();
-        for(int i = 0; i < handler.objectLL.size(); i++){
-             GameObject obj = handler.objectLL.get(i);
-                if(getBounds().intersects(obj.getBounds())) {
-                    collide = obj.getId();
-                    //System.out.println(collide);
-            }
-        }
-        return collide;
-    }
-
-
 
     public void setId(ID id) {
         this.id = id;

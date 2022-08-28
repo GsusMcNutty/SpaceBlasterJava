@@ -1,9 +1,6 @@
 package com.game.main;
 
 public  class GameData {
-
-    private Handler handler;
-
     private int asteroidsDestroyed = 0, enemyBasicDestroyed = 0;
     private int startingLevel = 1, savedLevel =1, curLevel = 1;
 

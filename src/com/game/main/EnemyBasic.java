@@ -7,8 +7,8 @@ public class EnemyBasic extends Ship{
     private final float speed;
 
     // TODO: 8/27/2022 pull data into here like the player does from its data class 
-    public EnemyBasic(float x, float y, Handler handler) {
-        super(x, y, 20, 20, ID.Basic, handler, 0, 0, 3, Color.red);
+    public EnemyBasic(int x, int y, Handler handler, EnemyType t, GameData gd) {
+        super(x, y, t.width, t.height, t.id, handler, t.hull, t.armor, t.shield, t.color, gd);
         this.handler = handler;
         speed = 2f;
     }
@@ -55,17 +55,27 @@ public class EnemyBasic extends Ship{
     }
     @Override
     public void collisionResult() {
-        if(this.collision() != this.id){
-            if(this.collision() != ID.Projectile){
-                if(!tookDamage){
-                    System.out.println("Collision with a type Ship");
-                    takeDamage(DamageTypes.NotSpecial);
-                    setVelX(getVelX() * -1);
-                    setVelY(getVelY() * -1);
+        for(int i = 0; i < handler.objectLL.size(); i++){
+            GameObject obj = handler.objectLL.get(i);
+            if(obj.getId() != this.id){
+                if(getBounds().intersects(obj.getBounds())) {
+                    if (obj.getId() != ID.Projectile) {
+                        if (!tookDamage) {
+                            System.out.println("BasicEnemy Collision with a type Ship");
+                            this.takeDamage(DamageTypes.NotSpecial);
+                            setVelX(getVelX() * -1);
+                            setVelY(getVelY() * -1);
+                        }
+                    }
+                    if (obj.getId() == ID.Projectile) {
+                        if(obj.getOrigin() != this){
+                            //System.out.println("Collision with a type Projectile");
+                            this.takeDamage(DamageTypes.NotSpecial);
+                            handler.removeObject(obj);
+                        }
+
+                    }
                 }
-            }
-            if(this.collision() == ID.Projectile){
-                System.out.println("Collision with a type Projectile");
             }
         }
     }

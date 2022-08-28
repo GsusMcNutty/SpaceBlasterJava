@@ -5,10 +5,10 @@ import java.awt.*;
 public class Asteroid extends Ship{
     private Handler handler;
 
-    // TODO: 8/27/2022 pull data into here like the player does from its data class
-        public Asteroid(int x, int y, int w, int h, ID id, Handler handler, int hl, int a, int s, Color color, int vX, int vY) {
-            super(x, y, w, h, id, handler, 0, 0, 1, color);
+        public Asteroid(int x, int y, Handler handler, int vX, int vY, EnemyType t, GameData gd) {
+            super(x, y, t.width, t.height, t.id, handler, t.hull, t.armor, t.shield, t.color, gd);
             this.handler = handler;
+
             setVelX(vX);
             setVelY(-vY);
         }
@@ -29,23 +29,6 @@ public class Asteroid extends Ship{
             if(x >= Game.WIDTH + width){
                 x = -width;
             }
-
-
-            /*
-            if(y <= -height*2){
-                handler.removeObject(this);
-            }
-            if(y >= Game.HEIGHT + height){
-                handler.removeObject(this);
-            }
-            if(x <= -width){
-                handler.removeObject(this);
-            }
-            if(x >= Game.WIDTH + width){
-                handler.removeObject(this);
-            }
-
-             */
             this.collisionResult();
         }
     public void render(Graphics g) {
@@ -60,7 +43,7 @@ public class Asteroid extends Ship{
             GameObject obj = handler.objectLL.get(i);
             if(obj.getId() != this.id){
                 if(getBounds().intersects(obj.getBounds())) {
-                    if (this.collision() != ID.Projectile) {
+                    if (obj.getId() != ID.Projectile) {
                         if (!tookDamage) {
                             System.out.println("Asteroid Collision with a type Ship");
                             this.takeDamage(DamageTypes.NotSpecial);
@@ -68,8 +51,13 @@ public class Asteroid extends Ship{
                             setVelY(getVelY() * -1);
                         }
                     }
-                    if (this.collision() == ID.Projectile) {
-                        System.out.println("ASteroidCollision with a type Projectile");
+                    if (obj.getId() == ID.Projectile) {
+                        if(obj.getOrigin() != this){
+                            //System.out.println("Collision with a type Projectile");
+                            this.takeDamage(DamageTypes.NotSpecial);
+                            handler.removeObject(obj);
+                        }
+
                     }
                 }
             }

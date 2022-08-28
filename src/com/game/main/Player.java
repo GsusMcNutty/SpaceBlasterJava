@@ -6,8 +6,8 @@ public class Player extends Ship {
     private Handler handler;
     private PlayerData pData;
     private int hull, armor, shield;
-    public Player(Handler handler, PlayerData pData) {
-        super(pData.getStartX(), pData.getStartY(), pData.getWidth(), pData.getHeight(), pData.getId(), handler, pData.getShield(), pData.getArmor(), pData.getHull(), pData.getColor());
+    public Player(Handler handler, PlayerData pData, GameData gd) {
+        super(pData.getStartX(), pData.getStartY(), pData.getWidth(), pData.getHeight(), pData.getId(), handler, pData.getHull(), pData.getArmor(), pData.getShield(), pData.getColor(), gd);
         this.pData = pData;
         this.handler = handler;
         this.hull = pData.getHull();
@@ -53,10 +53,11 @@ public class Player extends Ship {
                             setVelY(getVelY() * -1);
                         }
                     }
-                    if (this.collision() == ID.Projectile) {
+                    if (obj.getId() == ID.Projectile) {
                         if(obj.getOrigin() != this){
                             //System.out.println("Collision with a type Projectile");
                             this.takeDamage(DamageTypes.NotSpecial);
+                            handler.removeObject(obj);
                         }
 
                     }

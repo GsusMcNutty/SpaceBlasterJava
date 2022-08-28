@@ -98,8 +98,8 @@ public class Spawner {
     }
 
     public void spawnEnemy(){
-        GameObject asteroid = new Asteroid(r.nextInt(Game.WIDTH), Game.HEIGHT -20, 20,20,ID.Asteroid,handler,1,0,0, Color.gray, r.nextInt( 3- 1) + 1, r.nextInt(3-1)+1);
-        GameObject enemyBasic = new EnemyBasic(-Game.WIDTH +100, r.nextInt(Game.HEIGHT-20), handler);
+        GameObject asteroid = new Asteroid(r.nextInt(Game.WIDTH), Game.HEIGHT -20,  handler, r.nextInt( 3- 1) + 1, r.nextInt(3-1)+1, EnemyType.ASTEROID, gData);
+        GameObject enemyBasic = new EnemyBasic(-Game.WIDTH +100, r.nextInt(Game.HEIGHT-20), handler, EnemyType.ENEMYBASIC, gData);
 
             if(astSpawned < level.maxNumberAsteroids){
                 handler.addObject(asteroid);

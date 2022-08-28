@@ -2,7 +2,6 @@ package com.game.main;
 
 public class ProjectileData {
 
-    private Handler handler;
     private DamageTypes damage;
 
     public ProjectileData (){
