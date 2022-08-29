@@ -1,13 +1,11 @@
 package com.game.main;
 
-import java.awt.*;
 import java.util.Objects;
 import java.util.Random;
 
 public class Spawner {
 
     private final Handler handler;
-    private final PlayerData pData;
     private final GameData gData;
     private LevelData level;
     private final Random r = new Random();
@@ -17,9 +15,8 @@ public class Spawner {
     private int astSpawned;
     private int eBasicSpawned;
 
-    public Spawner(Handler handler, PlayerData playerData, GameData gameData){
+    public Spawner(Handler handler, GameData gameData){
         this.handler = handler;
-        this.pData = playerData;
         this.gData = gameData;
         state = LevelState.START;
         curLevel = 4;
@@ -98,11 +95,13 @@ public class Spawner {
     }
 
     public void spawnEnemy(){
-        GameObject asteroid = new Asteroid(r.nextInt(Game.WIDTH), Game.HEIGHT -20,  handler, r.nextInt( 3- 1) + 1, r.nextInt(3-1)+1, EnemyType.ASTEROID, gData);
-        GameObject enemyBasic = new EnemyBasic(-Game.WIDTH +100, r.nextInt(Game.HEIGHT-20), handler, EnemyType.ENEMYBASIC, gData);
+        GameObject asteroid = new Asteroid( handler, r.nextInt( 3- 1) + 1, r.nextInt(3-1)+1, new ShipData(ShipType.ASTEROID));
+        //GameObject asteroid = new Asteroid(r.nextInt(Game.WIDTH), Game.HEIGHT -20,  handler, r.nextInt( 3- 1) + 1, r.nextInt(3-1)+1, ShipType.ASTEROID, gData);
+        GameObject enemyBasic = new EnemyBasic( handler, new ShipData(ShipType.ENEMYBASIC));
+        //GameObject enemyBasic = new EnemyBasic(-Game.WIDTH +100, r.nextInt(Game.HEIGHT-20), handler, ShipType.ENEMYBASIC, gData);
 
             if(astSpawned < level.maxNumberAsteroids){
-                handler.addObject(asteroid);
+               this.handler.addObject(asteroid);
             }
 
             if(level.canSpawnBasic){

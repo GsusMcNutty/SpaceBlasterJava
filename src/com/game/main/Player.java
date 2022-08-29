@@ -3,16 +3,12 @@ package com.game.main;
 import java.awt.*;
 
 public class Player extends Ship {
-    private Handler handler;
-    private PlayerData pData;
-    private int hull, armor, shield;
-    public Player(Handler handler, PlayerData pData, GameData gd) {
-        super(pData.getStartX(), pData.getStartY(), pData.getWidth(), pData.getHeight(), pData.getId(), handler, pData.getHull(), pData.getArmor(), pData.getShield(), pData.getColor(), gd);
-        this.pData = pData;
+    private final Handler handler;
+
+    public Player(Handler handler, ShipData shipData) {
+        super(handler, handler.getGameData(),shipData);
         this.handler = handler;
-        this.hull = pData.getHull();
-        this.armor = pData.getArmor();
-        this.shield = pData.getShield();
+        handler.setPlayerData(shipData);
     }
 
     @Override
@@ -41,12 +37,12 @@ public class Player extends Ship {
     }
     @Override
     public void collisionResult() {
-        for(int i = 0; i < handler.objectLL.size(); i++){
-            GameObject obj = handler.objectLL.get(i);
+        for(int i = 0; i < this.handler.objectLL.size(); i++){
+            GameObject obj = this.handler.objectLL.get(i);
             if(obj.getId() != this.id){
                 if(getBounds().intersects(obj.getBounds())) {
                     if (obj.getId() != ID.Projectile) {
-                        if (!tookDamage) {
+                        if (!this.tookDamage) {
                             System.out.println("Player Collision with a type Ship");
                             this.takeDamage(DamageTypes.NotSpecial);
                             setVelX(getVelX() * -1);

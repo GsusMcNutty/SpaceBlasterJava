@@ -5,40 +5,32 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 public abstract class Ship extends GameObject {
-    private  Handler handler;
-    private GameData gData;
-    private PlayerData pData;
-    private int hull;
-    private int shield;
-    private int armor;
+    private final Handler handler;
+    private final GameData gData;
+    private final ShipData sData;
     protected boolean tookDamage;
     protected float timer;
-    private final Color color;
 
-    // TODO: 8/27/2022 get working with EnemyType NOT EnemyData (obsolete?) 
-    protected Ship(float x, float y, int w, int h,ID id, Handler hL, int hl, int a, int s, Color c, GameData gd) {
-        super(x, y, w, h, id, hL);
-        this.handler = hL;
-        this.color = c;
-        this.hull = hl;
-        this.armor = a;
-        this.shield = s;
-        this.gData = gd;
-        this.pData = hL.getpData();
+    protected Ship(Handler handler, GameData gameData, ShipData shipData) {
+        super(shipData.getStartX(), shipData.getStartY(), shipData.getWidth(), shipData.getHeight(), shipData.getId(), handler);
+        this.handler = handler;
+        this.gData = gameData;
+        this.sData = shipData;
     }
     public void tick() {
         x += getVelX();
         y += getVelY();
 
         if(tookDamage){
-            timer++;
-            if(timer > 30){
+            this.timer++;
+            if(this.timer > 30){
                 tookDamage = false;
             }
         }
-        if(this.hull == 0) {
+        if(this.sData.getHull() <= 0) {
             if(this.getId() == ID.Player){
                 //handler.setGameOver(true);
+                handler.removeObject(this);
             }
             gData.setScore(gData.getScore() + this.getId().scoreWorth);
             handler.removeObject(this);
@@ -49,66 +41,64 @@ public abstract class Ship extends GameObject {
         switch (d){
             case Shield:
                 tookDamage = true;
-                this.shield--;
-                System.out.println(this.getId() + " Shield "+ this.shield);
+                this.sData.setShield(this.sData.getShield() - 1);
+                System.out.println(this.getId() + " Shield "+ this.sData.getShield());
                 if(this.getId() == ID.Player){
                     gData.setScore(gData.getScore() - 30);
-                    pData.setShield(pData.getShield() -1);
                 }
                 timer = 0;
                 break;
 
             case Armor:
                 tookDamage = true;
-                this.armor--;
+                this.sData.setArmor(this.sData.getArmor() - 1);
                 if(this.getId() == ID.Player){
                     gData.setScore(gData.getScore() - 60);
-                    pData.setArmor(pData.getArmor() -1);
                 }
                 timer = 0;
                 break;
 
             case Hull:
                 tookDamage = true;
-                this.hull--;
-                System.out.println(this.getId() +" Hull "+this.hull);
+                this.sData.setHull(this.sData.getHull()- 1);
+                System.out.println(this.getId() +" Hull "+this.sData.getHull());
                 if(this.getId() == ID.Player){
-                    pData.setHull(pData.getHull() -1);
+                    gData.setScore(gData.getScore() - 100);
                 }
                 timer = 0;
                 break;
 
             case ShieldHull:
                 tookDamage = true;
-                this.shield--;
-                this.hull--;
+                this.sData.setShield(this.sData.getShield() - 1);
+                this.sData.setHull(this.sData.getHull()- 1);
                 timer = 0;
                 break;
 
             case ArmorHull:
                 tookDamage = true;
-                this.armor--;
-                this.hull--;
+                this.sData.setArmor(this.sData.getArmor() - 1);
+                this.sData.setHull(this.sData.getHull()- 1);
                 break;
 
             case ShieldAArmor:
                 tookDamage = true;
-                this.shield--;
-                this.armor--;
+                this.sData.setShield(sData.getShield() - 1);
+                this.sData.setArmor(sData.getArmor() - 1);
                 break;
 
             case All:
                 tookDamage = true;
-                this.hull--;
-                this.shield--;
-                this.armor--;
+                this.sData.setHull(this.sData.getHull()- 1);
+                this.sData.setShield(this.sData.getShield() - 1);
+                this.sData.setArmor(this.sData.getArmor() - 1);
                 break;
 
             case NotSpecial:
-                if(this.shield > 0){
+                if(this.sData.getShield() > 0){
                     takeDamage(DamageTypes.Shield);
                 }else{
-                    if(this.armor > 0){
+                    if(this.sData.getArmor() > 0){
                         takeDamage(DamageTypes.Armor);
                     }else{
                         takeDamage(DamageTypes.Hull);
@@ -124,14 +114,14 @@ public abstract class Ship extends GameObject {
     protected void drawEllipse(Graphics g, double x, double y, double width, double height){
         Graphics2D g2d = (Graphics2D) g;
         Ellipse2D ellipse = new Ellipse2D.Double(x, y, width, height);
-        g2d.setColor(color);
+        g2d.setColor(sData.getColor());
         g2d.draw(ellipse);
     }
     //for ships
     protected void drawRectangle(Graphics g, double x, double y, double width, double height){
         Graphics2D g2d = (Graphics2D) g;
         Rectangle2D rectangle = new Rectangle2D.Double(x, y, width, height);
-        g2d.setColor(color);
+        g2d.setColor(sData.getColor());
         g2d.draw(rectangle);
     }
 }

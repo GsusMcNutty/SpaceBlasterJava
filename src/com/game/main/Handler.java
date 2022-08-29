@@ -8,12 +8,11 @@ public class Handler {
     private boolean gameOver = false;
     private boolean restart = false;
     private String level;
-    private GameData gData;
-    private PlayerData pData;
+    private final GameData gData;
+    private ShipData playerData = null;
 
-    public Handler(GameData gameData, PlayerData playerData){
+    public Handler(GameData gameData){
         this.gData = gameData;
-        this.pData = playerData;
     }
     public void tick(){
         if(!gameOver){
@@ -66,11 +65,15 @@ public class Handler {
         this.gameOver = gameOver;
     }
 
-    public GameData getGData() {
+    public GameData getGameData() {
         return gData;
     }
 
-    public PlayerData getpData() {
-        return pData;
+    public ShipData getPlayerData() {
+        return playerData;
+    }
+
+    public void setPlayerData(ShipData playerData) {
+        this.playerData = playerData;
     }
 }

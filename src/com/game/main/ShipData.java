@@ -1,26 +1,40 @@
 package com.game.main;
 import java.awt.*;
 
-public class PlayerData {
-    private ID id = ID.Player;
-    private float startX = 100, startY = 100;
-    private int width = 20, height = 20;
-    private int hull = 0, armor = 0, shield = 0;
-    private int maxHull = 3, maxArmor = 3, maxShield = 3;
-    private Color color = Color.blue;
-    private HUD hud;
+public class ShipData {
+    private ID id;
+    private float startX, startY;
+    private int width, height;
+    private int hull, armor, shield;
+    private int maxHull, maxArmor, maxShield;
+    private Color color;
     private DamageTypes damageTypes;
 
-    public PlayerData(){
+    private final ShipType  sType;
+
+    public ShipData(ShipType type){
+        this.sType = type;
+        this.setWidth(this.sType.width);
+        this.setHeight(this.sType.height);
+        this.setColor(this.sType.color);
+        this.setMaxHull(this.sType.hull);
+        this.setMaxArmor(this.sType.armor);
+        this.setMaxShield(this.sType.shield);
+        this.setHull(this.maxHull);
+        this.setArmor(this.maxArmor);
+        this.setShield(this.maxShield);
+        this.setId(this.sType.id);
+
+
     }
     public void resetPlayerData(){
-        setHull(getMaxHull());
+        setHull(sType.hull);
         setArmor(getMaxArmor());
         setShield(getMaxShield());
     }
 
     public ID getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(ID id) {
@@ -28,7 +42,7 @@ public class PlayerData {
     }
 
     public float getStartX() {
-        return startX;
+        return this.startX;
     }
 
     public void setStartX(float startX) {
@@ -36,7 +50,7 @@ public class PlayerData {
     }
 
     public float getStartY() {
-        return startY;
+        return this.startY;
     }
 
     public void setStartY(float startY) {
@@ -44,7 +58,7 @@ public class PlayerData {
     }
 
     public int getWidth() {
-        return width;
+        return this.width;
     }
 
     public void setWidth(int width) {
@@ -52,7 +66,7 @@ public class PlayerData {
     }
 
     public int getHeight() {
-        return height;
+        return this.height;
     }
 
     public void setHeight(int height) {
@@ -60,7 +74,7 @@ public class PlayerData {
     }
 
     public int getHull() {
-        return hull;
+        return this.hull;
     }
 
     public void setHull(int hull) {
@@ -68,7 +82,7 @@ public class PlayerData {
     }
 
     public int getArmor() {
-        return armor;
+        return this.armor;
     }
 
     public void setArmor(int armor) {
@@ -76,7 +90,7 @@ public class PlayerData {
     }
 
     public int getShield() {
-        return shield;
+        return this.shield;
     }
 
     public void setShield(int shield) {
@@ -84,23 +98,15 @@ public class PlayerData {
     }
 
     public Color getColor() {
-        return color;
+        return this.color;
     }
 
     public void setColor(Color color) {
         this.color = color;
     }
 
-    public HUD getHud() {
-        return hud;
-    }
-
-    public void setHud(HUD hud) {
-        this.hud = hud;
-    }
-
     public int getMaxHull() {
-        return maxHull;
+        return this.maxHull;
     }
 
     public void setMaxHull(int maxHull) {
@@ -108,7 +114,7 @@ public class PlayerData {
     }
 
     public int getMaxArmor() {
-        return maxArmor;
+        return this.maxArmor;
     }
 
     public void setMaxArmor(int maxArmor) {
@@ -116,7 +122,7 @@ public class PlayerData {
     }
 
     public int getMaxShield() {
-        return maxShield;
+        return this.maxShield;
     }
 
     public void setMaxShield(int maxShield) {
@@ -124,7 +130,7 @@ public class PlayerData {
     }
 
     public DamageTypes getDamageTypes() {
-        return damageTypes;
+        return this.damageTypes;
     }
 
     public void setDamageTypes(DamageTypes damageTypes) {

@@ -18,7 +18,7 @@ public  class GameData {
         }
     }
  */
-    public GameData( PlayerData playerData){
+    public GameData(){
     }
 
     public int getAsteroidsDestroyed() {

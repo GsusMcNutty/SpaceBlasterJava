@@ -1,15 +1,21 @@
 package com.game.main;
 
 import java.awt.*;
+import java.util.Random;
 
 public class EnemyBasic extends Ship{
+
     private final Handler handler;
     private final float speed;
 
     // TODO: 8/27/2022 pull data into here like the player does from its data class 
-    public EnemyBasic(int x, int y, Handler handler, EnemyType t, GameData gd) {
-        super(x, y, t.width, t.height, t.id, handler, t.hull, t.armor, t.shield, t.color, gd);
+    public EnemyBasic(Handler handler, ShipData shipData) {
+        super(handler, handler.getGameData(),shipData);
         this.handler = handler;
+
+        this.setX(-Game.WIDTH +100);
+        Random r = new Random();
+        this.setY(r.nextInt(Game.HEIGHT-20));
         speed = 2f;
     }
 

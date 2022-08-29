@@ -1,16 +1,20 @@
 package com.game.main;
 
 import java.awt.*;
+import java.util.Random;
 
 public class Asteroid extends Ship{
-    private Handler handler;
+    private final Handler handler;
 
-        public Asteroid(int x, int y, Handler handler, int vX, int vY, EnemyType t, GameData gd) {
-            super(x, y, t.width, t.height, t.id, handler, t.hull, t.armor, t.shield, t.color, gd);
+    public Asteroid(Handler handler, int vX, int vY, ShipData shipData) {
+            super(handler, handler.getGameData(),new ShipData(ShipType.ASTEROID));
             this.handler = handler;
 
-            setVelX(vX);
-            setVelY(-vY);
+            Random r = new Random();
+            this.setX(r.nextInt(Game.WIDTH));
+            this.setY(Game.HEIGHT -20);
+            this.setVelX(vX);
+            this.setVelY(-vY);
         }
 
         @Override

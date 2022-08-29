@@ -1,7 +1,5 @@
 package com.game.main;
 
-import com.sun.org.apache.xml.internal.security.Init;
-
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -9,10 +7,9 @@ public class Game extends Canvas implements Runnable{
     public static final int WIDTH = 640, HEIGHT = WIDTH/ 12 * 9;
     private Thread thread;
     private boolean isRunning = false;
-    private Handler handler;
-    private Spawner spawner;
-    private HUD hud;
-    private PlayerData pData;
+    private final Handler handler;
+    private final Spawner spawner;
+    private final HUD hud;
     private GameData gData;
     private ProjectileData projData;
 
@@ -20,19 +17,18 @@ public class Game extends Canvas implements Runnable{
         //construct window
         new Window(WIDTH, HEIGHT, "Blaster", this);
         InitGameData();
-        InitPlayerData();
 
-        handler = new Handler(gData,pData);
+        handler = new Handler(gData);
 
-        spawner = new Spawner(handler, pData, gData);
-        hud = new HUD(handler, pData);
+        spawner = new Spawner(handler, gData);
+        hud = new HUD(handler);
         projData = new ProjectileData();
 
         //KeyListener
         this.addKeyListener(new KeyInput(handler));
         this.addMouseListener(new MouseInput(handler));
         //Make Objects
-        handler.addObject(new Player( handler, pData, gData));
+        handler.addObject(new Player( handler, new ShipData(ShipType.PLAYER)));
     }
 
     public synchronized void start(){
@@ -73,7 +69,7 @@ public class Game extends Canvas implements Runnable{
             if(System.currentTimeMillis() - timer > 1000){
                 timer += 1000;
                 //FPS Print
-                //System.out.println("FPS: " + frames);
+                System.out.println("FPS: " + frames);
             }
         }
         stop();
@@ -112,15 +108,9 @@ public class Game extends Canvas implements Runnable{
         bs.show();
     }
 
-    public void InitPlayerData(){
-        if(pData == null){
-            pData = new PlayerData();
-        }
-        pData.resetPlayerData();
-    }
     public void InitGameData(){
         if(gData == null){
-            gData = new GameData(pData);
+            gData = new GameData();
         }
         gData.setScore(gData.getStartScore());
     }

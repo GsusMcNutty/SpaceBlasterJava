@@ -5,13 +5,13 @@ import java.awt.*;
 public class HUD {
 
     private final Handler h;
-    private final PlayerData pD;
-    private GameData gData;
+    private ShipData playerData;
+    private final GameData gameData;
 
-    public HUD (Handler handler, PlayerData playerData){
+    public HUD (Handler handler){
         this.h = handler;
-        this.pD = playerData;
-        this.gData = h.getGData();
+        this.playerData = h.getPlayerData();
+        this.gameData = h.getGameData();
     }
 
     public void tick(){
@@ -22,16 +22,19 @@ public class HUD {
         g.fillRect(10, 10,150, 30);
 
         g.setColor(Color.black);
-        g.drawString( "Score "+ gData.getScore(), 13,25);
+        g.drawString( "Score "+ gameData.getScore(), 13,25);
         if (h.getLevel() != null){
             g.drawString(h.getLevel(), 100, 25);
         }
 
-        if(pD != null){
+        if(playerData != null){
             //System.out.println("drawing hud");
             drawShields(g);
             drawArmor(g);
             drawHull(g);
+        } else{
+            playerData = h.getPlayerData();
+            System.out.println("Player is null");
         }
         g.setColor(Color.gray);
         g.drawRect(10,10,150,30);
@@ -41,8 +44,8 @@ public class HUD {
     public void drawHull(Graphics g){
         //red background for hull
         g.setColor(Color.red);
-        g.fillRect(10 ,26,3+((pD.getMaxHull())*10),14);
-        for(int i = 0; i < pD.getHull(); i ++){
+        g.fillRect(10 ,26,3+((playerData.getMaxHull())*10),14);
+        for(int i = 0; i < playerData.getHull(); i ++){
             g.setColor(Color.green);
             g.fillRect(10 ,26,3+((i+1)*10),14);
             g.setColor(Color.darkGray);
@@ -51,7 +54,7 @@ public class HUD {
     }
 
     public void drawArmor(Graphics g){
-        for(int i = 0; i < pD.getArmor(); i ++){
+        for(int i = 0; i < playerData.getArmor(); i ++){
             g.setColor(Color.darkGray);
             g.fillRect(10 ,27,10+((i+3)*10),12);
             g.setColor(Color.black);
@@ -59,8 +62,8 @@ public class HUD {
         }
     }
     public void drawShields(Graphics g){
-        for(int i = 0; i < pD.getShield(); i ++){
-            System.out.println("drawing shield" + i);
+        for(int i = 0; i < playerData.getShield(); i ++){
+            //System.out.println("drawing shield" + i);
             g.setColor(Color.black);
             g.drawRect(10 ,27,15+((i+5)*10),12);
             g.setColor(Color.blue);
