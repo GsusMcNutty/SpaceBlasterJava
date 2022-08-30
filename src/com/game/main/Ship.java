@@ -23,12 +23,12 @@ public abstract class Ship extends GameObject {
 
         if(tookDamage){
             this.timer++;
-            if(this.timer > 30){
+            if(timer > 30){
                 tookDamage = false;
             }
         }
-        if(this.sData.getHull() <= 0) {
-            if(this.getId() == ID.Player){
+        if(sData.getHull() <= 0) {
+            if(getId() == ID.Player){
                 //handler.setGameOver(true);
                 handler.removeObject(this);
             }
@@ -41,8 +41,8 @@ public abstract class Ship extends GameObject {
         switch (d){
             case Shield:
                 tookDamage = true;
-                this.sData.setShield(this.sData.getShield() - 1);
-                System.out.println(this.getId() + " Shield "+ this.sData.getShield());
+                sData.setShield(this.sData.getShield() - 1);
+                System.out.println(this.getId() + " Shield "+ sData.getShield());
                 if(this.getId() == ID.Player){
                     gData.setScore(gData.getScore() - 30);
                 }
@@ -51,7 +51,7 @@ public abstract class Ship extends GameObject {
 
             case Armor:
                 tookDamage = true;
-                this.sData.setArmor(this.sData.getArmor() - 1);
+                sData.setArmor(sData.getArmor() - 1);
                 if(this.getId() == ID.Player){
                     gData.setScore(gData.getScore() - 60);
                 }
@@ -60,8 +60,8 @@ public abstract class Ship extends GameObject {
 
             case Hull:
                 tookDamage = true;
-                this.sData.setHull(this.sData.getHull()- 1);
-                System.out.println(this.getId() +" Hull "+this.sData.getHull());
+                sData.setHull(sData.getHull()- 1);
+                System.out.println(this.getId() +" Hull "+sData.getHull());
                 if(this.getId() == ID.Player){
                     gData.setScore(gData.getScore() - 100);
                 }
@@ -70,35 +70,35 @@ public abstract class Ship extends GameObject {
 
             case ShieldHull:
                 tookDamage = true;
-                this.sData.setShield(this.sData.getShield() - 1);
-                this.sData.setHull(this.sData.getHull()- 1);
+                sData.setShield(sData.getShield() - 1);
+                sData.setHull(sData.getHull()- 1);
                 timer = 0;
                 break;
 
             case ArmorHull:
                 tookDamage = true;
-                this.sData.setArmor(this.sData.getArmor() - 1);
-                this.sData.setHull(this.sData.getHull()- 1);
+                sData.setArmor(sData.getArmor() - 1);
+                sData.setHull(sData.getHull()- 1);
                 break;
 
             case ShieldAArmor:
                 tookDamage = true;
-                this.sData.setShield(sData.getShield() - 1);
-                this.sData.setArmor(sData.getArmor() - 1);
+                sData.setShield(sData.getShield() - 1);
+                sData.setArmor(sData.getArmor() - 1);
                 break;
 
             case All:
                 tookDamage = true;
-                this.sData.setHull(this.sData.getHull()- 1);
-                this.sData.setShield(this.sData.getShield() - 1);
-                this.sData.setArmor(this.sData.getArmor() - 1);
+                sData.setHull(sData.getHull()- 1);
+                sData.setShield(sData.getShield() - 1);
+                sData.setArmor(sData.getArmor() - 1);
                 break;
 
             case NotSpecial:
-                if(this.sData.getShield() > 0){
+                if(sData.getShield() > 0){
                     takeDamage(DamageTypes.Shield);
                 }else{
-                    if(this.sData.getArmor() > 0){
+                    if(sData.getArmor() > 0){
                         takeDamage(DamageTypes.Armor);
                     }else{
                         takeDamage(DamageTypes.Hull);

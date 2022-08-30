@@ -33,18 +33,18 @@ public class Player extends Ship {
         drawRectangle(g, getX(), getY(), width,height);
     }
     public Rectangle getBounds(){
-        return new Rectangle((int) this.getX(), (int) this.getY(), this.getWidth()/2, this.getHeight()/2);
+        return new Rectangle((int) getX(), (int) getY(), getWidth()/2, getHeight()/2);
     }
     @Override
     public void collisionResult() {
-        for(int i = 0; i < this.handler.objectLL.size(); i++){
-            GameObject obj = this.handler.objectLL.get(i);
+        for(int i = 0; i < handler.objectLL.size(); i++){
+            GameObject obj = handler.objectLL.get(i);
             if(obj.getId() != this.id){
                 if(getBounds().intersects(obj.getBounds())) {
                     if (obj.getId() != ID.Projectile) {
-                        if (!this.tookDamage) {
+                        if (!tookDamage) {
                             System.out.println("Player Collision with a type Ship");
-                            this.takeDamage(DamageTypes.NotSpecial);
+                            takeDamage(DamageTypes.NotSpecial);
                             setVelX(getVelX() * -1);
                             setVelY(getVelY() * -1);
                         }
@@ -52,7 +52,7 @@ public class Player extends Ship {
                     if (obj.getId() == ID.Projectile) {
                         if(obj.getOrigin() != this){
                             //System.out.println("Collision with a type Projectile");
-                            this.takeDamage(DamageTypes.NotSpecial);
+                            takeDamage(DamageTypes.NotSpecial);
                             handler.removeObject(obj);
                         }
 

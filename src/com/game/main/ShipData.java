@@ -13,17 +13,19 @@ public class ShipData {
     private final ShipType  sType;
 
     public ShipData(ShipType type){
-        this.sType = type;
-        this.setWidth(this.sType.width);
-        this.setHeight(this.sType.height);
-        this.setColor(this.sType.color);
-        this.setMaxHull(this.sType.hull);
-        this.setMaxArmor(this.sType.armor);
-        this.setMaxShield(this.sType.shield);
-        this.setHull(this.maxHull);
-        this.setArmor(this.maxArmor);
-        this.setShield(this.maxShield);
-        this.setId(this.sType.id);
+        sType = type;
+        setStartX(sType.startingX);
+        setStartY(sType.startingY);
+        setWidth(sType.width);
+        setHeight(sType.height);
+        setColor(sType.color);
+        setMaxHull(sType.hull);
+        setMaxArmor(sType.armor);
+        setMaxShield(sType.shield);
+        setHull(maxHull);
+        setArmor(maxArmor);
+        setShield(maxShield);
+        setId(sType.id);
 
 
     }

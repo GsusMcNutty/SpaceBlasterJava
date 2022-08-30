@@ -11,10 +11,10 @@ public class Asteroid extends Ship{
             this.handler = handler;
 
             Random r = new Random();
-            this.setX(r.nextInt(Game.WIDTH));
-            this.setY(Game.HEIGHT -20);
-            this.setVelX(vX);
-            this.setVelY(-vY);
+            setX(r.nextInt(Game.WIDTH));
+            setY(Game.HEIGHT -20);
+            setVelX(vX);
+            setVelY(-vY);
         }
 
         @Override
@@ -33,13 +33,13 @@ public class Asteroid extends Ship{
             if(x >= Game.WIDTH + width){
                 x = -width;
             }
-            this.collisionResult();
+            collisionResult();
         }
     public void render(Graphics g) {
-        drawEllipse(g, this.getX(), this.getY(), width, height);
+        drawEllipse(g, getX(), getY(), width, height);
     }
     public Rectangle getBounds(){
-        return new Rectangle((int) this.getX(), (int) this.getY(), this.getWidth(), this.getHeight());
+        return new Rectangle((int) getX(), (int) getY(), getWidth(), getHeight());
     }
     @Override
     public void collisionResult() {
@@ -50,7 +50,7 @@ public class Asteroid extends Ship{
                     if (obj.getId() != ID.Projectile) {
                         if (!tookDamage) {
                             System.out.println("Asteroid Collision with a type Ship");
-                            this.takeDamage(DamageTypes.NotSpecial);
+                            takeDamage(DamageTypes.NotSpecial);
                             setVelX(getVelX() * -1);
                             setVelY(getVelY() * -1);
                         }
@@ -58,7 +58,7 @@ public class Asteroid extends Ship{
                     if (obj.getId() == ID.Projectile) {
                         if(obj.getOrigin() != this){
                             //System.out.println("Collision with a type Projectile");
-                            this.takeDamage(DamageTypes.NotSpecial);
+                            takeDamage(DamageTypes.NotSpecial);
                             handler.removeObject(obj);
                         }
 

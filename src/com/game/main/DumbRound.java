@@ -7,7 +7,7 @@ public class DumbRound extends Projectile{
     public DumbRound(float x, float y, Handler hL, GameObject s) {
         super(x, y, 5, 5, ID.Projectile,  hL, Color.yellow);
         setOrigin(s);
-        this.projData = new ProjectileData();
+        projData = new ProjectileData();
 
         projData.setDamage(DamageTypes.NotSpecial);
     }

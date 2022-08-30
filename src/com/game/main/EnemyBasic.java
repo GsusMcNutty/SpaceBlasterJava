@@ -13,9 +13,9 @@ public class EnemyBasic extends Ship{
         super(handler, handler.getGameData(),shipData);
         this.handler = handler;
 
-        this.setX(-Game.WIDTH +100);
+        setX(-Game.WIDTH +100);
         Random r = new Random();
-        this.setY(r.nextInt(Game.HEIGHT-20));
+        setY(r.nextInt(Game.HEIGHT-20));
         speed = 2f;
     }
 
@@ -34,7 +34,7 @@ public class EnemyBasic extends Ship{
         if(x >= Game.WIDTH + width){
             x = -width;
         }
-        if (!this.tookDamage){
+        if (!tookDamage){
             trackPlayer();
         }
         collisionResult();
@@ -43,12 +43,12 @@ public class EnemyBasic extends Ship{
             for (int i = 0; i < handler.objectLL.size(); i++) {
                 GameObject obj = handler.objectLL.get(i);
                 if (obj.getId() == ID.Player) {
-                    float difX =  this.getX() - obj.getX();
-                    float difY = this.getY() - obj.getY();
-                    float dist = (float) (Math.sqrt( (this.getX() - obj.getX()) * difX + difY * difY) );
+                    float difX =  getX() - obj.getX();
+                    float difY = getY() - obj.getY();
+                    float dist = (float) (Math.sqrt( (getX() - obj.getX()) * difX + difY * difY) );
 
-                    this.setVelX( ((-1.0f/dist)* difX) * speed);
-                    this.setVelY( ((-1.0f/dist)*difY) * speed);
+                    setVelX( ((-1.0f/dist)* difX) * speed);
+                    setVelY( ((-1.0f/dist)*difY) * speed);
                 }
             }
     }
@@ -76,7 +76,7 @@ public class EnemyBasic extends Ship{
                     if (obj.getId() == ID.Projectile) {
                         if(obj.getOrigin() != this){
                             //System.out.println("Collision with a type Projectile");
-                            this.takeDamage(DamageTypes.NotSpecial);
+                            takeDamage(DamageTypes.NotSpecial);
                             handler.removeObject(obj);
                         }
 

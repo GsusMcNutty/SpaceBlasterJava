@@ -9,9 +9,9 @@ public class HUD {
     private final GameData gameData;
 
     public HUD (Handler handler){
-        this.h = handler;
-        this.playerData = h.getPlayerData();
-        this.gameData = h.getGameData();
+        h = handler;
+        playerData = h.getPlayerData();
+        gameData = h.getGameData();
     }
 
     public void tick(){
@@ -40,7 +40,6 @@ public class HUD {
         g.drawRect(10,10,150,30);
     }
 
-    // TODO: 8/27/2022 need to migrate data from or to player data 
     public void drawHull(Graphics g){
         //red background for hull
         g.setColor(Color.red);
